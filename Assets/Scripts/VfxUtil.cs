@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// Small helpers that build lightweight particle effects at runtime.
 /// Building them in code keeps the scene file small and means there are no imported
-/// art dependencies: everything uses the built-in legacy particle shaders.
+/// art dependencies: everything uses Unity's built-in particle shaders, with a fallback
+/// chain so the effects still look right on newer editor versions.
 /// </summary>
 public static class VfxUtil
 {
@@ -33,27 +35,54 @@ public static class VfxUtil
         return softCircle;
     }
 
-    static Material CreateMaterial(string shaderName, Color tint, float softness)
+    static Material CreateMaterial(string shaderName, Color tint, bool additive)
     {
-        Shader shader = Shader.Find(shaderName);
-        if (shader == null) shader = Shader.Find("Particles/Standard Unlit");
-        if (shader == null) shader = Shader.Find("Sprites/Default");
+        // Shader names differ between Unity versions and between the built-in and
+        // scriptable render pipelines, so try the preferred one and then fall back.
+        // If the legacy particle shaders are unavailable, the standard particle shader
+        // is configured explicitly so the effect still renders transparent.
+        string[] candidates = additive
+            ? new[] { shaderName, "Particles/Standard Unlit",
+                      "Legacy Shaders/Particles/Additive", "Sprites/Default" }
+            : new[] { shaderName, "Particles/Standard Unlit",
+                      "Legacy Shaders/Particles/Alpha Blended", "Sprites/Default" };
+
+        Shader shader = null;
+        for (int i = 0; i < candidates.Length && shader == null; i++)
+            shader = Shader.Find(candidates[i]);
+        if (shader == null)
+        {
+            Debug.LogWarning("[Fire Safety] No particle shader was found; particle effects may not render.");
+            return null;
+        }
+
         Material material = new Material(shader) { name = shaderName + " (runtime)" };
         material.mainTexture = SoftCircle();
+
         if (material.HasProperty("_TintColor")) material.SetColor("_TintColor", tint);
         if (material.HasProperty("_Color")) material.SetColor("_Color", tint);
-        if (material.HasProperty("_SoftParticlesNearFadeDistance")) material.SetFloat("_SoftParticlesNearFadeDistance", softness);
+
+        // Explicit blend state: works for both the legacy and the standard particle shaders.
+        if (material.HasProperty("_Mode")) material.SetFloat("_Mode", additive ? 4f : 2f);
+        if (material.HasProperty("_SrcBlend")) material.SetInt("_SrcBlend", (int)BlendMode.SrcAlpha);
+        if (material.HasProperty("_DstBlend"))
+            material.SetInt("_DstBlend", (int)(additive ? BlendMode.One : BlendMode.OneMinusSrcAlpha));
+        if (material.HasProperty("_ZWrite")) material.SetInt("_ZWrite", 0);
+        material.EnableKeyword("_ALPHABLEND_ON");
+        material.SetOverrideTag("RenderType", "Transparent");
+        material.renderQueue = (int)RenderQueue.Transparent;
+
         return material;
     }
 
     public static Material Additive(Color tint)
     {
-        return CreateMaterial("Legacy Shaders/Particles/Additive", tint, 0f);
+        return CreateMaterial("Legacy Shaders/Particles/Additive", tint, true);
     }
 
     public static Material Smoke(Color tint)
     {
-        return CreateMaterial("Legacy Shaders/Particles/Alpha Blended", tint, 0f);
+        return CreateMaterial("Legacy Shaders/Particles/Alpha Blended", tint, false);
     }
 
     public static ParticleSystem CreateSystem(Transform parent, string name, Vector3 localPosition, Material material)
@@ -64,7 +93,7 @@ public static class VfxUtil
 
         ParticleSystem system = go.AddComponent<ParticleSystem>();
         ParticleSystemRenderer renderer = go.GetComponent<ParticleSystemRenderer>();
-        renderer.material = material;
+        if (material != null) renderer.material = material;
         renderer.renderMode = ParticleSystemRenderMode.Billboard;
         renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         renderer.receiveShadows = false;

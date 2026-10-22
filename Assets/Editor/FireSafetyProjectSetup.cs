@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.XR;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -72,7 +73,7 @@ public static class FireSafetyProjectSetup
         List<string> errors = new List<string>();
         List<string> notes = new List<string>();
 
-        LessonManager lesson = Object.FindObjectOfType<LessonManager>();
+        LessonManager lesson = Object.FindFirstObjectByType<LessonManager>();
         if (lesson == null)
         {
             errors.Add("No LessonManager in the scene.");
@@ -96,19 +97,19 @@ public static class FireSafetyProjectSetup
                 errors.Add("LessonManager should reference exactly 6 extinguisher cards.");
         }
 
-        PlayerController player = Object.FindObjectOfType<PlayerController>();
+        PlayerController player = Object.FindFirstObjectByType<PlayerController>();
         if (player == null) errors.Add("No PlayerController (player rig) in the scene.");
         else if (player.playerCamera == null) errors.Add("PlayerController.playerCamera is not assigned.");
         else if (player.playerCamera.GetComponent<AudioListener>() == null)
             notes.Add("The player camera has no AudioListener - alarm audio will be silent.");
 
-        if (Object.FindObjectOfType<LessonUI>() == null) errors.Add("No LessonUI in the scene.");
-        if (Object.FindObjectOfType<EventSystem>() == null) errors.Add("No EventSystem in the scene.");
-        if (Object.FindObjectOfType<AlarmController>() == null) errors.Add("No AlarmController in the scene.");
-        if (Object.FindObjectOfType<FireDemo>() == null) errors.Add("No FireDemo in the scene.");
-        if (Object.FindObjectOfType<CorridorSmoke>() == null) errors.Add("No CorridorSmoke in the scene.");
+        if (Object.FindFirstObjectByType<LessonUI>() == null) errors.Add("No LessonUI in the scene.");
+        if (Object.FindFirstObjectByType<EventSystem>() == null) errors.Add("No EventSystem in the scene.");
+        if (Object.FindFirstObjectByType<AlarmController>() == null) errors.Add("No AlarmController in the scene.");
+        if (Object.FindFirstObjectByType<FireDemo>() == null) errors.Add("No FireDemo in the scene.");
+        if (Object.FindFirstObjectByType<CorridorSmoke>() == null) errors.Add("No CorridorSmoke in the scene.");
 
-        EvacuationController evacuation = Object.FindObjectOfType<EvacuationController>();
+        EvacuationController evacuation = Object.FindFirstObjectByType<EvacuationController>();
         if (evacuation == null) errors.Add("No EvacuationController in the scene.");
         else
         {
@@ -119,7 +120,7 @@ public static class FireSafetyProjectSetup
         }
 
         // Every interactable needs a collider, otherwise the player can never look at it.
-        MonoBehaviour[] behaviours = Object.FindObjectsOfType<MonoBehaviour>(true);
+        MonoBehaviour[] behaviours = Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         int interactables = 0;
         foreach (MonoBehaviour behaviour in behaviours)
         {
@@ -131,12 +132,31 @@ public static class FireSafetyProjectSetup
         notes.Add(interactables + " interactable objects found.");
 
         // Checkpoints must use trigger colliders.
-        foreach (CheckpointTrigger checkpoint in Object.FindObjectsOfType<CheckpointTrigger>(true))
+        foreach (CheckpointTrigger checkpoint in Object.FindObjectsByType<CheckpointTrigger>(FindObjectsInactive.Include, FindObjectsSortMode.None))
         {
             Collider collider = checkpoint.GetComponent<Collider>();
             if (collider == null || !collider.isTrigger)
                 errors.Add(checkpoint.name + " needs a trigger collider.");
         }
+
+        // Editor / project environment: these are the two settings that most often make a
+        // Unity 6 project look "broken" even though every object is wired correctly.
+        notes.Add("Unity version: " + Application.unityVersion);
+
+        int inputHandler = ActiveInputHandler();
+        if (inputHandler == 1)
+            errors.Add("Active Input Handling is 'Input System Package (New)'. This trainer uses the " +
+                       "legacy Input Manager, so set Player Settings > Active Input Handling to 'Both' " +
+                       "and let Unity restart.");
+        else if (inputHandler == 2)
+            notes.Add("Active Input Handling is 'Both' - keyboard, mouse and XR input are all available.");
+        else if (inputHandler == 0)
+            notes.Add("Active Input Handling is 'Input Manager (Old)' - desktop controls work. " +
+                      "Select 'Both' if you want to use the XR Interaction Toolkit device simulator.");
+
+        if (XRSettings.supportedDevices == null || XRSettings.supportedDevices.Length == 0)
+            notes.Add("No XR device is enabled yet. Desktop play works now; to test in a headset, " +
+                      "enable OpenXR in Project Settings > XR Plug-in Management (see the README).");
 
         // Player spawn should be inside the first corridor.
         if (lesson != null && lesson.startPoint != null)
@@ -161,6 +181,40 @@ public static class FireSafetyProjectSetup
         else
             EditorUtility.DisplayDialog("Validation problems",
                 errors.Count + " problem(s) were written to the Console.", "OK");
+    }
+
+    /// <summary>
+    /// Reads Player Settings > Active Input Handling: 0 = old Input Manager, 1 = new Input
+    /// System, 2 = both, -1 = could not be read.
+    /// </summary>
+    static int ActiveInputHandler()
+    {
+        Object[] assets = AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/ProjectSettings.asset");
+        if (assets == null || assets.Length == 0) return -1;
+        SerializedProperty property = new SerializedObject(assets[0]).FindProperty("activeInputHandler");
+        return property != null ? property.intValue : -1;
+    }
+
+    [MenuItem("Tools/VR Fire Safety/Project Setup Report", false, 3)]
+    public static void ProjectSetupReport()
+    {
+        int handler = ActiveInputHandler();
+        string handlerName = handler == 0 ? "Input Manager (Old)"
+                           : handler == 1 ? "Input System Package (New)"
+                           : handler == 2 ? "Both" : "unknown";
+
+        Debug.Log("[Fire Safety] Unity " + Application.unityVersion +
+                  " | active input handling: " + handlerName +
+                  " | XR devices enabled at build time: " +
+                  (XRSettings.supportedDevices.Length == 0 ? "none"
+                      : string.Join(", ", XRSettings.supportedDevices)));
+
+        if (handler == 1)
+            Debug.LogError("[Fire Safety] Set Player Settings > Active Input Handling to 'Both' " +
+                           "(or 'Input Manager (Old)') or the desktop controls will not respond.");
+        if (XRSettings.supportedDevices.Length == 0)
+            Debug.Log("[Fire Safety] Desktop play works. For a headset, enable OpenXR under " +
+                      "Project Settings > XR Plug-in Management, then enable the feature for your device.");
     }
 
     static void Require<T>(ref T reference, string label, List<string> errors) where T : Object

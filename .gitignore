@@ -21,3 +21,5 @@
 
 # Static-check renders produced by tools/render_plan.py
 /build/
+__pycache__/
+*.pyc

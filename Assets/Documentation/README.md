@@ -15,7 +15,7 @@ One scene, one guided route, four short teaching sections:
 
 | Step | What to do |
 | --- | --- |
-| Unity version | **Unity 2022.3 LTS** (built and written for 2022.3.22f1; any 2022.3.x works) |
+| Unity version | **Unity 6000.5.3f1 (Unity 6.5)**; any 6000.5.x or newer Unity 6 release works |
 | Open the project | Unity Hub → *Add* → select this folder → open |
 | Scene to open | `Assets/Scenes/FireSafetyTrainer.unity` |
 | Run | Press **Play**. The main menu appears in front of you. |
@@ -23,6 +23,19 @@ One scene, one guided route, four short teaching sections:
 
 Everything (geometry, materials, signage, audio, lesson wiring) is already in the scene.
 No assets need to be downloaded and no package needs to be installed to run it in the Editor.
+
+### Project settings that matter on Unity 6.5
+
+| Setting | Value | Why |
+| --- | --- | --- |
+| `ProjectSettings/ProjectVersion.txt` | `6000.5.3f1` (`c2eb47b3a2a9`) | the editor version the project is pinned to |
+| Active Input Handling | **Both** | the trainer reads the legacy Input Manager (WASD/mouse/E) and the XR Interaction Toolkit needs the new Input System for its device simulator |
+| Colour space | Linear | correct lighting and sign readability in a headset |
+| Render pipeline | Built-in | no URP asset or material conversion needed; still supported in Unity 6.5 |
+| Runtime packages | uGUI 2.5.0, XR Interaction Toolkit 3.5.1, XR Plug-in Management 4.5.4, OpenXR 1.17.1 | package versions used by public projects committed with Unity 6000.5.3f1 |
+
+The first time the project opens, Unity may spend a minute importing and upgrading the settings
+files written by the scene generator. Let it finish; nothing needs to be clicked.
 
 ### Controls
 
@@ -109,6 +122,7 @@ tools/                               generators and static checks (Python 3, not
   gen_scene.py                       the scene, lighting, wiring and build settings
   verify_scene.py                    reference / GUID / serialized-field integrity
   verify_flow.py                     lesson event, stage, content and collider checks
+  verify_project.py                  Unity version, package, player-settings and API checks
   render_plan.py                     top-down plan and section images for layout review
 ```
 
@@ -131,6 +145,7 @@ python3 tools/gen_assets.py     # sign textures, audio clips, materials, .meta f
 python3 tools/gen_scene.py      # the Unity scene + build settings
 python3 tools/verify_scene.py   # fileIDs, GUIDs, script fields, metas
 python3 tools/verify_flow.py    # lesson events, stages, content, colliders
+python3 tools/verify_project.py # Unity 6.5 version, packages, player settings, removed APIs
 python3 tools/render_plan.py    # writes build/plan_*.png and build/section*.png
 ```
 
@@ -162,16 +177,22 @@ Single storey, 4 m wide corridors, 3.2 m ceilings, stairs descending 3.5 m:
 Desktop play works immediately. To run in a headset, enable XR in the Editor (this is a per-project
 Editor step in every Unity VR project):
 
-1. **Edit ▸ Project Settings ▸ XR Plug-in Management ▸ PC (or Android) tab** → tick **OpenXR**.
-2. **Project Settings ▸ XR Plug-in Management ▸ OpenXR ▸ Features** → add **Meta Quest Support**
-   (or the feature for your headset) if you need it.
-3. **Project Settings ▸ Player ▸ XR Settings** → tick *Virtual Reality Supported* only if you are
-   using the legacy XR path (not needed for OpenXR).
+1. **Edit ▸ Project Settings ▸ XR Plug-in Management** → on the **PC** tab (or **Android** for a
+   standalone headset build), tick **OpenXR**. Unity installs the loader and may ask to restart.
+2. **Project Settings ▸ XR Plug-in Management ▸ OpenXR ▸ Features** → enable the feature group for
+   your headset (for Quest: **Meta Quest Support**; for a PC headset: **Microsoft HoloLens** or the
+   vendor feature). If the feature list is empty, press *Fix All* / *Install* when Unity offers it.
+3. **Project Settings ▸ Player ▸ Other Settings ▸ Active Input Handling** must stay **Both**.
+   Setting it to *Input System Package (New)* silences the desktop controls, because the trainer
+   reads the legacy Input Manager. (The project ships with *Both* already selected.)
 4. To test without a headset: **Window ▸ Package Manager ▸ XR Interaction Toolkit ▸ Samples** →
-   import **XR Device Simulator**, add the `XR Device Simulator` prefab to the scene and press Play.
-   The trainer reads movement/turn/trigger from the XR device API, so the simulator drives it directly.
+   import **XR Device Simulator**, then drag the `XR Device Simulator` prefab into the scene and
+   press Play. The trainer reads head pose, thumbsticks and trigger straight from `UnityEngine.XR`,
+   so the simulator drives it with no further wiring.
 5. For a standalone build: **File ▸ Build Settings** → the training scene is already listed →
-   *Build And Run*.
+   *Build And Run*. If the smoke or flames look wrong in a player (but fine in the Editor), add
+   `Particles/Standard Unlit` to **Project Settings ▸ Graphics ▸ Always Included Shaders** — runtime
+   particle materials fetch their shader by name, and unused shaders are stripped from builds.
 
 The training itself does not depend on which controller model is used: it reads the head pose,
 the left/right thumbsticks and the right trigger through `UnityEngine.XR`.
@@ -234,14 +255,24 @@ Key points taken from the sources:
 * The level layout was reviewed from `build/plan_route.png`, `build/plan_outdoor.png` and
   `build/section*.png`, generated from the scene by `tools/render_plan.py`.
 * Teaching content was checked against the references listed above.
-* Project settings were generated for Unity 2022.3 (Input Manager, build scene list, tags).
+* `tools/verify_project.py` passes for Unity 6000.5.3f1: the pinned editor version and revision
+  match, every runtime package version is one used by public projects committed with 6000.5.3f1,
+  no Unity 2022-only package or removed module is requested, Active Input Handling is *Both*,
+  colour space is Linear, the build settings list the scene with its current GUID, the uGUI
+  components the interface needs are present, and no script uses an API removed in Unity 6
+  (`FindObjectOfType`, `UnityEngine.VR`, `WWW`, `Application.LoadLevel`, and similar).
 
 **Not verified here (no Unity Editor or headset is available in this environment)**
 
+* The project has **never been opened in Unity 6000.5.3f1** (or any Unity). Package resolution,
+  the settings upgrade Unity performs on first open, and script compilation were checked only
+  statically and against Unity 6.5 documentation; they were not executed.
 * Visual layout, lighting balance and particle appearance in the Editor.
 * Actual mouse/keyboard or VR input, audio playback, and the on-screen button interactions.
-* Frame rate and performance.
+* Frame rate, stereo rendering and comfort in a headset.
 
 Open the scene and use **Tools ▸ VR Fire Safety ▸ Validate Training Scene** first: it re-checks
-every reference, collider and lesson object inside Unity and prints any problems to the Console
-before you press Play.
+every reference, collider and lesson object inside Unity, reports the editor version, the active
+input handling and whether an XR device is set up, and prints any problem to the Console before you
+press Play. **Tools ▸ VR Fire Safety ▸ Project Setup Report** prints the same environment summary
+on its own.

@@ -71,6 +71,11 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+#if !ENABLE_LEGACY_INPUT_MANAGER
+        Debug.LogError("[Fire Safety] Legacy input is disabled, so WASD, the mouse and E will not work. " +
+                       "Set Edit > Project Settings > Player > Other Settings > Active Input Handling to " +
+                       "'Both' (or 'Input Manager (Old)') and let Unity restart.");
+#endif
         LockCursor(true);
     }
 
