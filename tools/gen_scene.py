@@ -647,8 +647,6 @@ def build_signage(b, env):
     # left wall of the first corridor (faces +X)
     b.sign("Sign_FireAction", env, (-(HALF - 0.03), 1.8, 3.0), 1.0, 1.35, "fire_action_notice",
            rot=(0, 90, 0))
-    b.sign("Sign_MaskPoster", env, (-(HALF - 0.03), 1.75, 10.9), 1.7, 1.28, "mask_poster",
-           rot=(0, 90, 0))
     b.sign("Sign_FirstAid", env, (-(HALF - 0.03), 1.7, 13.6), 1.1, 1.45, "first_aid_poster",
            rot=(0, 90, 0))
     b.sign("Sign_SmokeWarning", env, (-(HALF - 0.03), 1.7, 33.0), 1.2, 0.8, "smoke_warning",
@@ -659,9 +657,6 @@ def build_signage(b, env):
 
     # right wall of the first corridor (faces -X)
     b.sign("Sign_InfoBoard", env, (HALF - 0.03, 1.6, 7.4), 1.6, 1.0, "info_board", rot=(0, -90, 0))
-    b.sign("Sign_ExtTypes", env, (HALF - 0.03, 1.85, 9.2), 1.7, 1.28,
-           "extinguisher_types_poster", rot=(0, -90, 0))
-    b.sign("Sign_Pass", env, (HALF - 0.03, 1.85, 17.1), 1.4, 1.05, "pass_poster", rot=(0, -90, 0))
     b.sign("Sign_StairsLobby", env, (HALF - 0.03, 1.85, 19.6), 1.3, 0.87, "stairs_sign",
            rot=(0, -90, 0))
 
@@ -771,7 +766,6 @@ def build_section_b(b, env):
            mesh="sphere")
     b.prop("Mask_N95", mask_root, (0.24, 0.05, 0), (0.09, 0.19, 0.24), "LampPanel", mesh="sphere")
     b.prop("Mask_Hood", mask_root, (0.24, 0.05, 0.48), (0.16, 0.26, 0.26), "Trim", mesh="sphere")
-    b.sign("Mask_Heading", mask_root, (0.215, -0.53, 0), 1.2, 0.26, "mask_poster", rot=(0, -90, 0))
     b.collider_node("MaskInteractBox", mask_root, (0.12, 0, 0), (0.4, 1.1, 1.7))
     refs["mask_root"] = mask_root
 
@@ -813,7 +807,6 @@ def build_section_b(b, env):
     b.box("Station_Leg", station, (0, 0.2, 0), (0.12, 0.4, 0.12), "DarkMetal", collider=False)
     b.box("Station_Base", station, (0, 0.02, 0), (0.5, 0.04, 0.45), "DarkMetal", collider=False)
     build_extinguisher_model(b, station, "PracticeExtinguisher", "ext_abc", (0, 0.45, 0), 0.95)
-    b.sign("Station_Sign", station, (0, 0.78, 0.28), 0.4, 0.2, "pass_poster", rot=(0, 0, 0))
     b.collider_node("StationInteractBox", station, (0, 0.75, 0), (0.7, 1.5, 0.7))
     refs["station"] = station
 
@@ -1030,9 +1023,17 @@ def build_ui(b):
     ui.mono("HudFollower", [
         "  target: %s" % ref(refs["camera"].tr_id),
         "  distance: 1.55",
+        "  minDistance: 0.15",
+        "  wallClearance: 0.12",
+        "  occlusionMask:",
+        "    serializedVersion: 2",
+        "    m_Bits: 4294967295",
         "  verticalOffset: -0.02",
         "  followSpeed: 10",
         "  followRotation: 1",
+        "  designSize: {x: 1600, y: 900}",
+        "  fill: 0.98",
+        "  sourceCamera: %s" % ref(refs["camera"].components[0][1]),
     ])
     refs["ui"] = ui
 
@@ -1290,8 +1291,8 @@ def main():
     # ---- mask display ---------------------------------------------------
     mask_root = refs["mask_root"]
     refs["mask_script"] = mask_root.mono("SimpleInteractable", [
-        "  interactionName: Study the mask display",
-        "  available: 0",
+        "  interactionName: Inspect the three mask types",
+        "  available: 1",
         "  pulseOnHover: 1",
         "  hoverScale: 1.02",
         "  eventId: mask_display",
@@ -1305,8 +1306,8 @@ def main():
     for card, texture in cards:
         identifier = "ext_card_" + texture.replace("ext_", "")
         refs["card_scripts"].append(card.mono("SimpleInteractable", [
-            "  interactionName: Read the extinguisher card",
-            "  available: 0",
+            "  interactionName: Inspect this extinguisher",
+            "  available: 1",
             "  pulseOnHover: 1",
             "  hoverScale: 1.02",
             "  eventId: %s" % identifier,

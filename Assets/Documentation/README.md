@@ -53,6 +53,9 @@ files written by the scene generator. Let it finish; nothing needs to be clicked
 While a panel is open the mouse cursor is free, so simply click a button. In VR, look at a
 button and press the trigger – the crosshair acts as the pointer.
 
+The interface follows the camera and is pulled in front of any wall between you and the panel,
+so a teaching panel can never end up hidden inside the geometry you are standing next to.
+
 **VR headset (OpenXR)**
 
 | Input | Action |

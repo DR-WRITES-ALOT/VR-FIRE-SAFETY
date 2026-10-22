@@ -78,6 +78,24 @@ public static class LessonContent
             "trained firefighters. Civilians do not use it.";
 
         public const string MaskRulesTitle = "Never rely on a mask";
+        public const string MaskTypesTitle = "Which mask? What it actually does";
+        public const string MaskTypesBody =
+            "<b>Cloth or surgical mask</b>\n" +
+            "Loosely fitting, not sealed to the face. It does not filter carbon monoxide or other " +
+            "toxic fire gases, and it gives no useful protection in a fire.\n\n" +
+            "<b>N95 / KN95 respirator</b>\n" +
+            "Filters fine particles only, and only when it is sealed to a clean-shaven face. It does " +
+            "<b>not</b> supply oxygen and does not stop CO, so it is not fire protection.\n\n" +
+            "<b>Certified escape hood</b>\n" +
+            "A short-duration escape aid with a filter and a hood. It buys minutes of filtered escape " +
+            "time and does not protect against oxygen-deficient air. It is not a reason to walk into " +
+            "smoke, and it is not a substitute for a clear escape route.\n\n" +
+            "<b>SCBA (self-contained breathing apparatus)</b>\n" +
+            "Supplies its own air. It is fire-service equipment, worn by trained firefighters with " +
+            "full protective clothing - not something to look for during an evacuation.\n\n" +
+            "<b>The rule for this building:</b> do not delay evacuation to find any mask, and never " +
+            "enter smoke because you are wearing one. Leave by the nearest safe route.";
+
         public const string MaskRulesBody =
             "-  <b>Never delay evacuation</b> to look for a mask or hood.\n" +
             "-  <b>Never enter a smoke-filled area</b> because you are wearing a mask.\n" +
@@ -268,6 +286,10 @@ public static class LessonContent
         public string Id;
         public string Title;
         public string Body;
+        /// <summary>Shown when the player walks up to a unit: which fire classes it is for.</summary>
+        public string UseWhen;
+        /// <summary>Why this unit is or is not right for the small contained fire in the corridor.</summary>
+        public string ForThisFire;
     }
 
     public static readonly ExtinguisherInfo[] Extinguishers =
@@ -276,6 +298,9 @@ public static class LessonContent
         {
             Id = "ext_water",
             Title = "Water extinguisher",
+            UseWhen = "Class A solids such as wood, paper and cloth.",
+            ForThisFire = "The bin contains ordinary solids, so water is rated for this fire - but only in a small, "
+                       + "contained fire like this one, with a clear exit behind you.",
             Body = "<b>Class A</b> - wood, paper, cloth and similar solid combustibles.\n\n" +
                    "Water cools the burning material. Use only where the label and rating allow it.\n\n" +
                    "<b>Never use water on:</b>\n" +
@@ -287,6 +312,9 @@ public static class LessonContent
         {
             Id = "ext_foam",
             Title = "Foam extinguisher",
+            UseWhen = "Class A solids and Class B flammable liquids.",
+            ForThisFire = "The bin fire is a solid-fuel fire, so a foam unit rated for Class A can smother it. Foam is "
+                       + "the better choice than water if burning liquid were also involved.",
             Body = "<b>Class A and Class B</b>, where the extinguisher is appropriately rated.\n\n" +
                    "Foam blankets the surface of flammable liquids and helps stop re-ignition.\n\n" +
                    "<b>Never use foam on energised electrical equipment</b>, and check the label " +
@@ -296,6 +324,10 @@ public static class LessonContent
         {
             Id = "ext_abc",
             Title = "ABC dry powder extinguisher",
+            UseWhen = "Class A, B and C, within the rating on the label.",
+            ForThisFire = "ABC powder covers the solid-fuel fire in this bin and is the most common unit in Indian "
+                       + "buildings. It makes a mess and reduces visibility, so never use it on a fire you "
+                       + "cannot put out quickly.",
             Body = "<b>Class A, B and C</b>, within the rating on the label.\n\n" +
                    "Multi-purpose dry chemical powder is common in Indian buildings because it covers " +
                    "ordinary solids, flammable liquids and flammable gases.\n\n" +
@@ -306,6 +338,9 @@ public static class LessonContent
         {
             Id = "ext_co2",
             Title = "CO2 extinguisher",
+            UseWhen = "Class B liquids and energised electrical equipment.",
+            ForThisFire = "CO2 is the wrong choice for the bin: it is designed for flammable liquids and live "
+                       + "electrical equipment, and it can blow burning solids around instead of cooling them.",
             Body = "<b>Class B</b> flammable liquids and <b>energised electrical equipment</b>.\n\n" +
                    "CO2 leaves no residue, which makes it useful near electrical equipment. Energised " +
                    "electrical equipment is a hazard, not a separate Indian fire class.\n\n" +
@@ -316,6 +351,9 @@ public static class LessonContent
         {
             Id = "ext_wet",
             Title = "Wet chemical extinguisher",
+            UseWhen = "Class F cooking oils and fats - kitchens only.",
+            ForThisFire = "Wet chemical is only for cooking oil and fat fires. There is no cooking oil here, so it is "
+                       + "not the right unit for this bin.",
             Body = "<b>Class F</b> - cooking oils and fats.\n\n" +
                    "Wet chemical reacts with burning oil to form a soap-like layer that cools the oil " +
                    "and stops re-ignition.\n\n" +
@@ -326,6 +364,9 @@ public static class LessonContent
         {
             Id = "ext_d",
             Title = "Special Class D powder",
+            UseWhen = "Class D combustible metals - specialist industrial risk.",
+            ForThisFire = "Class D powder is only for burning metal. Never use it (or any ordinary unit) on a metal "
+                       + "fire: this bin fire is ordinary solid fuel, so a Class D unit is not the right choice.",
             Body = "<b>Class D</b> - combustible metals such as magnesium, sodium and potassium.\n\n" +
                    "Only specially rated metal-fire powders are suitable. Water, foam, CO2 and ordinary " +
                    "ABC powder can make a metal fire worse or react violently.\n\n" +

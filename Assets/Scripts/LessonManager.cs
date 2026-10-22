@@ -230,7 +230,6 @@ public class LessonManager : MonoBehaviour
         }
         if (exitDoor != null) exitDoor.Lock();
         if (liftCall != null) liftCall.available = true;
-        SetExtinguisherCardsAvailable(false);
     }
 
     // ------------------------------------------------------------------ //
@@ -333,6 +332,18 @@ public class LessonManager : MonoBehaviour
                 Section("Section B - Masks and extinguishers");
                 Objective(LessonContent.SectionB.PassPracticeObjective);
                 if (extinguisherStation != null) extinguisherStation.practiceActive = true;
+                // Pop-up at the moment of use: why an ABC powder unit suits this bin fire.
+                {
+                    LessonContent.ExtinguisherInfo unit =
+                        Array.Find(LessonContent.Extinguishers, e => e.Id == "ext_abc");
+                    if (unit != null)
+                    {
+                        ShowInfo("B6  The unit at this station",
+                                 CardBody(unit),
+                                 "Now apply PASS: pull, aim at the base, squeeze, sweep.",
+                                 "Start PASS", null);
+                    }
+                }
                 break;
 
             case StagePassDone:
@@ -466,7 +477,6 @@ public class LessonManager : MonoBehaviour
     void BeginExtCardStep()
     {
         GoTo(StageExtCards);
-        SetExtinguisherCardsAvailable(true);
     }
 
     void BeginFireWatch()
@@ -603,8 +613,23 @@ public class LessonManager : MonoBehaviour
                 break;
 
             case "mask_display":
-                if (stage == StageMaskIntro) BeginMaskStep();
-                else if (stage == StageMaskDisplay) GoTo(StageMaskRules);
+                // The mask display always answers: the types are taught here, at the
+                // moment the player actually looks at the masks, instead of on a poster.
+                if (stage == StageMaskIntro)
+                {
+                    BeginMaskStep();
+                }
+                else if (stage == StageMaskDisplay)
+                {
+                    ShowInfo(LessonContent.SectionB.MaskTypesTitle,
+                             LessonContent.SectionB.MaskTypesBody, null,
+                             "Next: the rules that matter", (Action)(() => GoTo(StageMaskRules)));
+                }
+                else
+                {
+                    ShowInfo(LessonContent.SectionB.MaskTypesTitle,
+                             LessonContent.SectionB.MaskTypesBody, null, "Close", null);
+                }
                 break;
 
             case "fire_demo":
@@ -659,23 +684,41 @@ public class LessonManager : MonoBehaviour
 
     void HandleExtinguisherCard(string id)
     {
-        if (stage != StageExtCards)
-        {
-            return;
-        }
-
         // Scene cards report "ext_card_water"; LessonContent ids are "ext_water".
         string key = id.StartsWith("ext_") ? id : "ext_" + id;
         LessonContent.ExtinguisherInfo info =
             Array.Find(LessonContent.Extinguishers, e => e.Id == key || e.Id == id);
         if (info == null) return;
 
+        // Outside the "inspect all six" step the card still answers, so the player is
+        // never left clicking a model that does nothing. It just does not count as
+        // part of the step.
+        if (stage != StageExtCards)
+        {
+            if (Ui != null)
+            {
+                Ui.ShowPanel(info.Title, CardBody(info),
+                    "Look at the fire in the corridor and decide whether this unit is right for it.",
+                    new[] { "Close" }, new[] { (Action)Ui.HidePanel });
+            }
+            return;
+        }
+
         reviewedExtinguishers.Add(id);
         Objective(ExtinguisherObjective());
 
         if (Ui == null) return;
-        Ui.ShowPanel(info.Title, info.Body, "Reviewed " + reviewedExtinguishers.Count + " of 6 models.",
+        Ui.ShowPanel(info.Title, CardBody(info),
+            "Reviewed " + reviewedExtinguishers.Count + " of 6 models.",
             new[] { "Close" }, new[] { (Action)AfterCardReviewed });
+    }
+
+    /// <summary>Card text: what the unit is for, then why it does or does not suit this fire.</summary>
+    static string CardBody(LessonContent.ExtinguisherInfo info)
+    {
+        return info.Body +
+               "\n\n<b>Use it on:</b> " + info.UseWhen +
+               "\n\n<b>This fire:</b> " + info.ForThisFire;
     }
 
     void AfterCardReviewed()
@@ -814,13 +857,6 @@ public class LessonManager : MonoBehaviour
         {
             Ui.ShowPanel(title, body, footer, new string[0], new Action[0]);
         }
-    }
-
-    void SetExtinguisherCardsAvailable(bool value)
-    {
-        if (extinguisherCards == null) return;
-        for (int i = 0; i < extinguisherCards.Length; i++)
-            if (extinguisherCards[i] != null) extinguisherCards[i].available = value;
     }
 
     void PlayClick()

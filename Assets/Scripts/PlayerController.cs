@@ -104,6 +104,14 @@ public class PlayerController : MonoBehaviour
 
         PointerClickPressed = false;
 
+        // Safety net: if an overlay has closed without clearing the focus flag, movement
+        // and looking would stay dead. Recover on the next frame instead.
+        if (uiFocus && !OverlayIsOpen())
+        {
+            uiFocus = false;
+            if (!xrActive) LockCursor(true);
+        }
+
         if (xrActive)
         {
             UpdateXrHeadPose();
@@ -318,12 +326,25 @@ public class PlayerController : MonoBehaviour
     // Helpers
     // ------------------------------------------------------------------ //
 
+    static bool OverlayIsOpen()
+    {
+        LessonUI ui = LessonUI.Instance;
+        return ui != null && ui.AnyOverlayOpen;
+    }
+
     public void SetUiFocus(bool focus)
     {
         uiFocus = focus;
         SetFocus(null);
         if (xrActive) return;
         LockCursor(!focus);
+    }
+
+    /// <summary>Give control back to the player (used when a panel closes or on resume).</summary>
+    public void ReleaseUiFocus()
+    {
+        uiFocus = false;
+        if (!xrActive) LockCursor(true);
     }
 
     public void LockCursor(bool locked)

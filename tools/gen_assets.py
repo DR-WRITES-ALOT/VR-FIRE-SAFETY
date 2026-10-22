@@ -517,7 +517,7 @@ def sign_info_board():
     text = (
         "This corridor is part of a training route.\n\n"
         "1  Raise the alarm at the red call point.\n"
-        "2  Read the mask and extinguisher guidance.\n"
+        "2  Inspect the masks and the six extinguisher models (E).\n"
         "3  Practise PASS only on the small contained fire.\n"
         "4  Evacuate by the stairs to the assembly point.\n\n"
         "Lift access is not used during an evacuation."
