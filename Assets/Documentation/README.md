@@ -129,6 +129,7 @@ tools/                               generators and static checks (Python 3, not
   check_cs_access.py                 cross-class C# accessibility (private/protected misuse)
   check_all.py                       runs every check above in one go
   set_xr_packages.py                 switch between VR and desktop-only package sets
+  Fix-ProjectPath.ps1                Windows helper: move the project to a short path
   render_plan.py                     top-down plan and section images for layout review
 ```
 
@@ -221,26 +222,58 @@ actions (the package is already installed).
 
 ### `DirectoryNotFoundException` / "Asset import failed" for `Packages/...` files
 
-This is a Windows path-length failure, not a project defect. Unity resolves package files next to
-the project folder, and the deepest URP / Input System editor files are ~145 characters on their
-own. Windows refuses paths longer than 260 characters, so a project that sits in a long folder —
-for example a double-unzipped copy:
+This is a **Windows path-length failure**, not a project defect. Nothing in the project is
+corrupt, and no amount of re-extracting will fix it — the folder has to get shorter.
+
+Unity resolves package files under `<project>\Library\PackageCache\<package>@<hash>\...`, and
+several URP and Input System editor files are already ~145 characters on their own. Windows refuses
+paths of **260 characters or more**.
+
+The reported folder was **154 characters** *before* Unity added anything:
 
 ```
-C:\Users\<name>\Downloads\VR-FIRE-SAFETY-arena-0f6e8791-vr-fire-safety\VR-FIRE-SAFETY-arena-0f6e8791-vr-fire-safety
+C:\Users\Sreejith S H\Downloads\VR-FIRE-SAFETY-arena-...-safety(1)\VR-FIRE-SAFETY-arena-...-safety-...
+    32 chars                       + 45 chars (the "(1)" copy)      + ~77 chars (nested folder)
 ```
 
-(121 characters before `\Packages\` is even added) fails like this:
+which leaves only **106 characters** for `Library\PackageCache\<package>@<hash>\<rest of the file>`.
+The files Unity then fails on need 264–293 characters:
 
-```
-DirectoryNotFoundException: Could not find a part of the path "...\Packages\com.unity.render-pipelines.core\Editor-PrivateShared\..."
-Asset import failed, "Packages/com.unity.inputsystem/.../InputActionsProjectSettings.uxml" > DirectoryNotFoundException
-Host type is not matching any asset type at Path Packages/com.unity.render-pipelines.core/...urshader
+| Package file | Full path | Limit |
+| --- | --- | --- |
+| `...\ProbeVolume\RenderingLayerMask\TraceRenderingLayerMask.urshader` | 275 | ✗ |
+| `...\ProbeVolume\DynamicGI\DynamicGISkyOcclusion.urshader` | 264 | ✗ |
+| `...\Converter\Window\RenderPipelineConverterVisualElementListFilterer.uxml` | 293 | ✗ |
+| `...\UITKAssetEditor\PackageResources\CompositeBindingPropertiesEditor.uxml` | 275 | ✗ |
+
+`"Host type is not matching any asset type ... .urshader"` is the same failure seen one layer up: the
+file never imported, so its type is unknown.
+
+**Fix it in one step** (PowerShell, from anywhere):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File "C:\Users\Sreejith S H\Downloads\...\tools\Fix-ProjectPath.ps1"
 ```
 
-**Fix:** move the project to a short path such as `C:\VR\FireSafety` (one folder, one copy), then
-delete `Library/` and reopen. The trainer logs a warning on load and **Tools ▸ VR Fire Safety ▸
-Check Project Location** reports the exact numbers if the folder is too deep.
+The script copies `Assets`, `Packages`, `ProjectSettings`, `tools` and `README.md` to
+`C:\VR\FireSafety` (skipping `Library`/`Temp`/`obj`/`Logs`, so the copy itself never hits a long
+path), checks the scene arrived, and prints the next steps. Use `-Destination D:\VR\FireSafety` to
+choose another location, or `-RemoveSource` to delete the old folder afterwards.
+
+**By hand, if you prefer:**
+
+1. Create `C:\VR`.
+2. Move the folder that contains `Assets`, `Packages` and `ProjectSettings` (not the outer wrapper
+   folder) to `C:\VR\FireSafety`.
+3. Delete any `Library`, `Temp`, `obj` and `Logs` folders inside it.
+4. Open `C:\VR\FireSafety` in Unity Hub.
+
+Rules of thumb: keep the whole path under ~60 characters, extract the zip **once** and never into
+`Downloads` (each re-download creates `(1)`, `(2)`, ... copies and makes it worse), and avoid
+OneDrive / network drives / non-ASCII folder names.
+
+Unity itself will warn you: on load the project logs a warning when the path is risky, and
+**Tools ▸ VR Fire Safety ▸ Check Project Location** prints the measured length and the worst case.
 
 ### "The AssetImportWorkerHW0 has crashed" while opening the project
 
