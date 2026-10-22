@@ -37,7 +37,8 @@ No assets need to be downloaded and no package needs to be installed to run it i
 | Left mouse click | Press on-screen buttons (the cursor is released while a panel is open) |
 | `Esc` | Pause / resume |
 
-You can also press buttons by looking at them and pressing `E` – the crosshair acts as a pointer.
+While a panel is open the mouse cursor is free, so simply click a button. In VR, look at a
+button and press the trigger – the crosshair acts as the pointer.
 
 **VR headset (OpenXR)**
 
@@ -226,8 +227,10 @@ Key points taken from the sources:
   class, and every transform parent/child link agrees.
 * `tools/verify_flow.py` passes: all 10 scene event ids (including the six extinguisher cards),
   all 5 checkpoints and both door events are handled by `LessonManager`; all 30 lesson stages are
-  declared, entered and (apart from the menu sentinel) handled; every `LessonContent` member used by the code is defined; all 14
-  interactables have colliders and all checkpoints/hazard zones are triggers.
+  declared, entered and (apart from the menu sentinel) handled; every `LessonContent` member used
+  by the code is defined; all 14 interactables have colliders and all checkpoints/hazard zones are
+  triggers; every `LessonManager` scene reference (12 objects, 6 extinguisher cards, 2 audio clips)
+  is assigned.
 * The level layout was reviewed from `build/plan_route.png`, `build/plan_outdoor.png` and
   `build/section*.png`, generated from the scene by `tools/render_plan.py`.
 * Teaching content was checked against the references listed above.

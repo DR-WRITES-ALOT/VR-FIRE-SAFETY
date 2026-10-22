@@ -259,12 +259,41 @@ def check_colliders(problems):
                         problems.append("%s %r is not a trigger" % (class_name, name))
     return interactables
 
+
+REQUIRED_MANAGER_REFS = ("player", "alarm", "evacuation", "extinguisherStation", "fire", "phone",
+                         "maskDisplay", "liftCall", "fireViewPoint", "storeDoor", "exitDoor",
+                         "startPoint")
+
+
+def check_manager_refs(problems):
+    """The lesson is only as good as its wiring: no reference may be empty."""
+    parsed = object_graph()
+    for _, (class_id, body) in parsed.items():
+        if class_id != 114 or not isinstance(body, dict) or "player" not in body:
+            continue
+        for field in REQUIRED_MANAGER_REFS:
+            value = body.get(field)
+            if not isinstance(value, dict) or not value.get("fileID"):
+                problems.append("LessonManager.%s is not assigned" % field)
+        for field in ("clickClip", "panelClip"):
+            value = body.get(field)
+            if not isinstance(value, dict) or not value.get("fileID"):
+                problems.append("LessonManager.%s is not assigned" % field)
+        cards = body.get("extinguisherCards")
+        if not isinstance(cards, list) or len(cards) != 6:
+            problems.append("LessonManager.extinguisherCards should hold 6 models, found %s"
+                            % (len(cards) if isinstance(cards, list) else 0))
+        return
+    problems.append("LessonManager was not found in the scene")
+
+
 def main():
     problems = []
     values, handled = check_events(problems)
     constants = check_stages(problems)
     member_count, referenced = check_content(problems)
     interactables = check_colliders(problems)
+    check_manager_refs(problems)
 
     print("Scene lesson fields: " + ", ".join(
         "%s=%d" % (field, len(ids)) for field, ids in sorted(values.items())))
