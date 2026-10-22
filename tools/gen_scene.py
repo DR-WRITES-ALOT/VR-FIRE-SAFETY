@@ -51,6 +51,35 @@ LANDING_END = 28.5
 C2_END = 44.0
 OUT_END = 62.0
 
+# Universal Render Pipeline components (URP 17 script GUIDs, stable across versions).
+URP_LIGHT_DATA = "474bcb49853aa07438625e644c072ee6"
+URP_CAMERA_DATA = "a79441f348de89743a2939f4d699eac1"
+
+URP_LIGHT_FIELDS = [
+    "  m_UsePipelineSettings: 1",
+    "  m_AdditionalLightsShadowResolutionTier: 2",
+    "  m_CustomShadowLayers: 0",
+    "  m_LightCookieSize: {x: 1, y: 1}",
+    "  m_LightCookieOffset: {x: 0, y: 0}",
+    "  m_SoftShadowQuality: 0",
+]
+
+URP_CAMERA_FIELDS = [
+    "  m_RenderShadows: 1",
+    "  m_RequiresDepthTextureOption: 2",
+    "  m_RequiresOpaqueTextureOption: 2",
+    "  m_CameraType: 0",
+    "  m_Cameras: []",
+    "  m_RendererIndex: -1",
+    "  m_RenderPostProcessing: 0",
+    "  m_Antialiasing: 0",
+    "  m_AntialiasingQuality: 2",
+    "  m_StopNaN: 0",
+    "  m_Dithering: 0",
+    "  m_ClearDepth: 1",
+    "  m_AllowXRRendering: 1",
+]
+
 MESHES = {
     "cube": 10202,
     "sphere": 10207,
@@ -422,6 +451,7 @@ class SceneBuilder:
             "  m_ShadowRadius: 0",
             "  m_ShadowAngle: 0",
         ])
+        node.script_component(URP_LIGHT_DATA, URP_LIGHT_FIELDS)
         return node
 
     def yaml(self):
@@ -921,6 +951,7 @@ def build_player(b):
         "  m_StereoConvergence: 10",
         "  m_StereoSeparation: 0.022",
     ])
+    camera_node.script_component(URP_CAMERA_DATA, URP_CAMERA_FIELDS)
     camera_node.add_component(81, ["  m_GameObject: %s" % ref(camera_node.go_id), "  m_Enabled: 1"])
 
     player_script = player.mono("PlayerController", [
@@ -1082,6 +1113,7 @@ def build_sun(b):
         "  m_ShadowRadius: 0",
         "  m_ShadowAngle: 0",
     ])
+    sun.script_component(URP_LIGHT_DATA, URP_LIGHT_FIELDS)
 
 
 SCENE_HEADER = """%YAML 1.1

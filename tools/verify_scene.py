@@ -33,6 +33,11 @@ IGNORED_GUIDS = {
     "dc42784cf147c0c48a680349fa168899",  # com.unity.ugui GraphicRaycaster
     "76c392e42b5098c458856cdf6ecaaaa1",  # com.unity.ugui EventSystem
     "4f231c4fb786f3946a6b90b886c48677",  # com.unity.ugui StandaloneInputModule
+    "474bcb49853aa07438625e644c072ee6",  # URP UniversalAdditionalLightData
+    "a79441f348de89743a2939f4d699eac1",  # URP UniversalAdditionalCameraData
+    "933532a4fcc9baf4fa0491de14d08ed7",  # URP Lit shader (materials)
+    "d0353a89b1f911e48b9e16bdc9f2e058",  # URP material version stamp
+    "0406db5a14f94604a8c57ccfbc9f3b46",  # URP Particles/Unlit shader
 }
 # Unity built-in asset ids (meshes, default material / clip / script / font objects)
 BUILTIN_IDS = {10001, 10202, 10206, 10207, 10209, 10210, 10304, 2100000, 8300000,

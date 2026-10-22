@@ -638,48 +638,77 @@ def make_audio():
 # Materials
 # --------------------------------------------------------------------------- #
 
-STANDARD_SHADER = "{fileID: 46, guid: 0000000000000000f000000000000000, type: 0}"
-TEX_ENVS = ["_MainTex", "_BumpMap", "_EmissionMap", "_MetallicGlossMap", "_OcclusionMap",
-            "_ParallaxMap", "_DetailMask", "_DetailAlbedoMap", "_DetailNormalMap", "_SpecGlossMap"]
+# The project renders with the Universal Render Pipeline (Unity 6.5 deprecates the
+# Built-in pipeline). URP/Lit is referenced by its package GUID, and each material
+# carries the URP "material version" component that the pipeline uses to decide
+# whether a material still needs upgrading.
+URP_LIT_SHADER = "{fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}"
+URP_MATERIAL_VERSION_SCRIPT = "d0353a89b1f911e48b9e16bdc9f2e058"
+
+# Property set of a fresh URP/Lit material (Unity 6.5 / URP 17).
+TEX_ENVS = ["_BaseMap", "_BumpMap", "_DetailAlbedoMap", "_DetailMask", "_DetailNormalMap",
+            "_EmissionMap", "_MainTex", "_MetallicGlossMap", "_OcclusionMap", "_ParallaxMap",
+            "_SpecGlossMap"]
+FLOATS = [
+    ("_AddPrecomputedVelocity", 0), ("_AlphaClip", 0), ("_AlphaToMask", 0), ("_Blend", 0),
+    ("_BlendModePreserveSpecular", 1), ("_BumpScale", 1), ("_ClearCoatMask", 0),
+    ("_ClearCoatSmoothness", 0), ("_Cull", 2), ("_Cutoff", 0.5), ("_DetailAlbedoMapScale", 1),
+    ("_DetailNormalMapScale", 1), ("_DstBlend", 0), ("_DstBlendAlpha", 0),
+    ("_EnvironmentReflections", 1), ("_GlossMapScale", 0), ("_Glossiness", 0),
+    ("_GlossyReflections", 0), ("_OcclusionStrength", 1), ("_Parallax", 0.005),
+    ("_QueueOffset", 0), ("_ReceiveShadows", 1), ("_SmoothnessTextureChannel", 0),
+    ("_SpecularHighlights", 1), ("_SrcBlend", 1), ("_SrcBlendAlpha", 1), ("_Surface", 0),
+    ("_WorkflowMode", 1), ("_XRMotionVectorsPass", 1), ("_ZWrite", 1),
+]
 
 
 def material_yaml(name, color, metallic=0.0, glossiness=0.3, emission=None, texture_guid=None,
                   emission_texture=None):
-    lines = ["%YAML 1.1", "%TAG !u! tag:unity3d.com,2011:", "--- !u!21 &2100000", "Material:",
-             "  serializedVersion: 8", "  m_ObjectHideFlags: 0",
-             "  m_CorrespondingSourceObject: {fileID: 0}", "  m_PrefabInstance: {fileID: 0}",
-             "  m_PrefabAsset: {fileID: 0}", f"  m_Name: {name}",
-             f"  m_Shader: {STANDARD_SHADER}", "  m_Parent: {fileID: 0}",
+    lines = ["%YAML 1.1", "%TAG !u! tag:unity3d.com,2011:",
+             "--- !u!114 &-9147341093869559046", "MonoBehaviour:",
+             "  m_ObjectHideFlags: 11", "  m_CorrespondingSourceObject: {fileID: 0}",
+             "  m_PrefabInstance: {fileID: 0}", "  m_PrefabAsset: {fileID: 0}",
+             "  m_GameObject: {fileID: 0}", "  m_Enabled: 1", "  m_EditorHideFlags: 0",
+             "  m_Script: {fileID: 11500000, guid: %s, type: 3}" % URP_MATERIAL_VERSION_SCRIPT,
+             "  m_Name: ", "  m_EditorClassIdentifier: ", "  version: 10",
+             "--- !u!21 &2100000", "Material:", "  serializedVersion: 8",
+             "  m_ObjectHideFlags: 0", "  m_CorrespondingSourceObject: {fileID: 0}",
+             "  m_PrefabInstance: {fileID: 0}", "  m_PrefabAsset: {fileID: 0}",
+             "  m_Name: %s" % name, "  m_Shader: %s" % URP_LIT_SHADER, "  m_Parent: {fileID: 0}",
              "  m_ModifiedSerializedProperties: 0"]
-    keywords = []
-    if emission is not None:
-        keywords.append("_EMISSION")
+    keywords = ["_EMISSION"] if emission is not None else []
     lines.append("  m_ValidKeywords:" + ("" if keywords else " []"))
     for keyword in keywords:
         lines.append("  - " + keyword)
-    lines += ["  m_InvalidKeywords: []",
-              "  m_LightmapFlags: 4", "  m_EnableInstancingVariants: 0", "  m_DoubleSidedGI: 0",
-              "  m_CustomRenderQueue: -1", "  stringTagMap: {}", "  disabledShaderPasses: []",
-              "  m_LockedProperties: ", "  m_SavedProperties:", "    serializedVersion: 3", "    m_TexEnvs:"]
+    lines += ["  m_InvalidKeywords: []", "  m_LightmapFlags: 4", "  m_EnableInstancingVariants: 0",
+              "  m_DoubleSidedGI: 0", "  m_CustomRenderQueue: -1",
+              "  stringTagMap:", "    RenderType: Opaque",
+              "  disabledShaderPasses:", "  - MOTIONVECTORS",
+              "  m_LockedProperties: ",
+              "  m_SavedProperties:", "    serializedVersion: 3", "    m_TexEnvs:"]
     for env in TEX_ENVS:
         tex = "{fileID: 0}"
+        if env == "_BaseMap" and texture_guid:
+            tex = "{fileID: 2800000, guid: %s, type: 3}" % texture_guid
         if env == "_MainTex" and texture_guid:
-            tex = f"{{fileID: 2800000, guid: {texture_guid}, type: 3}}"
+            tex = "{fileID: 2800000, guid: %s, type: 3}" % texture_guid
         if env == "_EmissionMap" and emission_texture:
-            tex = f"{{fileID: 2800000, guid: {emission_texture}, type: 3}}"
-        lines += [f"    - {env}:", f"        m_Texture: {tex}",
+            tex = "{fileID: 2800000, guid: %s, type: 3}" % emission_texture
+        lines += ["    - %s:" % env, "        m_Texture: %s" % tex,
                   "        m_Scale: {x: 1, y: 1}", "        m_Offset: {x: 0, y: 0}"]
-    lines += ["    m_Ints: []", "    m_Floats:",
-              "    - _BumpScale: 1", f"    - _Metallic: {fmt(metallic)}",
-              f"    - _Glossiness: {fmt(glossiness)}", "    - _OcclusionStrength: 1",
-              "    - _Parallax: 0.02", "    - _DetailNormalMapScale: 1", "    - _UVSec: 0",
-              "    - _Mode: 0", "    - _SrcBlend: 1", "    - _DstBlend: 0", "    - _ZWrite: 1",
-              "    - _GlossMapScale: 1", "    - _SmoothnessTextureChannel: 0",
-              "    - _SpecularHighlights: 1", "    - _GlossyReflections: 1",
-              "    - _EmissionScaleUI: 1",
-              "    m_Colors:", f"    - _Color: {col(*color)}",
-              f"    - _EmissionColor: {col(*(emission or (0, 0, 0)))}",
-              "  m_BuildTextureStacks: []"]
+    lines += ["    m_Ints: []", "    m_Floats:"]
+    for key, value in FLOATS:
+        lines.append("    - %s: %s" % (key, fmt(value)))
+    # URP/Lit uses _Metallic and _Smoothness; keep the legacy names too so material
+    # inspectors and older tooling still read sensible values.
+    lines += ["    - _Metallic: %s" % fmt(metallic),
+              "    - _Smoothness: %s" % fmt(glossiness),
+              "    m_Colors:",
+              "    - _BaseColor: %s" % col(*color),
+              "    - _Color: %s" % col(*color),
+              "    - _EmissionColor: %s" % col(*(emission or (0, 0, 0))),
+              "    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}",
+              "  m_BuildTextureStacks: []", "  m_AllowLocking: 1"]
     return "\n".join(lines) + "\n"
 
 

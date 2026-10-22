@@ -35,17 +35,20 @@ public static class VfxUtil
         return softCircle;
     }
 
-    static Material CreateMaterial(string shaderName, Color tint, bool additive)
+    static Material CreateMaterial(string legacyName, Color tint, bool additive)
     {
-        // Shader names differ between Unity versions and between the built-in and
-        // scriptable render pipelines, so try the preferred one and then fall back.
-        // If the legacy particle shaders are unavailable, the standard particle shader
-        // is configured explicitly so the effect still renders transparent.
-        string[] candidates = additive
-            ? new[] { shaderName, "Particles/Standard Unlit",
-                      "Legacy Shaders/Particles/Additive", "Sprites/Default" }
-            : new[] { shaderName, "Particles/Standard Unlit",
-                      "Legacy Shaders/Particles/Alpha Blended", "Sprites/Default" };
+        // The project renders with URP, but the same code should still work if a user
+        // switches back to the Built-in pipeline, so try the URP particle shader first
+        // and fall back through the other names Unity has shipped over the years.
+        string[] candidates =
+        {
+            "Universal Render Pipeline/Particles/Unlit",
+            "Universal Render Pipeline/Particles/Lit",
+            legacyName,
+            "Legacy Shaders/Particles/Additive",
+            "Particles/Standard Unlit",
+            "Sprites/Default",
+        };
 
         Shader shader = null;
         for (int i = 0; i < candidates.Length && shader == null; i++)
@@ -56,22 +59,34 @@ public static class VfxUtil
             return null;
         }
 
-        Material material = new Material(shader) { name = shaderName + " (runtime)" };
-        material.mainTexture = SoftCircle();
+        Material material = new Material(shader) { name = shader.name + " (runtime)" };
+        Texture2D circle = SoftCircle();
+        if (material.HasProperty("_BaseMap")) material.SetTexture("_BaseMap", circle);
+        if (material.HasProperty("_MainTex")) material.SetTexture("_MainTex", circle);
+        material.mainTexture = circle;
 
+        // Tint: URP particle shaders use _BaseColor, the older ones use _TintColor/_Color.
+        if (material.HasProperty("_BaseColor")) material.SetColor("_BaseColor", tint);
         if (material.HasProperty("_TintColor")) material.SetColor("_TintColor", tint);
         if (material.HasProperty("_Color")) material.SetColor("_Color", tint);
+        // 0 = multiply vertex colour (the default for URP particle shaders)
+        if (material.HasProperty("_ColorMode")) material.SetFloat("_ColorMode", 0f);
 
-        // Explicit blend state: works for both the legacy and the standard particle shaders.
-        if (material.HasProperty("_Mode")) material.SetFloat("_Mode", additive ? 4f : 2f);
+        // Explicit transparent state, so softening works with either shader family.
+        if (material.HasProperty("_Surface")) material.SetFloat("_Surface", 1f);
+        if (material.HasProperty("_Blend")) material.SetFloat("_Blend", 0f);
         if (material.HasProperty("_SrcBlend")) material.SetInt("_SrcBlend", (int)BlendMode.SrcAlpha);
         if (material.HasProperty("_DstBlend"))
             material.SetInt("_DstBlend", (int)(additive ? BlendMode.One : BlendMode.OneMinusSrcAlpha));
+        if (material.HasProperty("_SrcBlendAlpha")) material.SetInt("_SrcBlendAlpha", (int)BlendMode.One);
+        if (material.HasProperty("_DstBlendAlpha"))
+            material.SetInt("_DstBlendAlpha", (int)BlendMode.OneMinusSrcAlpha);
         if (material.HasProperty("_ZWrite")) material.SetInt("_ZWrite", 0);
+        if (material.HasProperty("_Cull")) material.SetInt("_Cull", (int)CullMode.Off);
+
         material.EnableKeyword("_ALPHABLEND_ON");
         material.SetOverrideTag("RenderType", "Transparent");
         material.renderQueue = (int)RenderQueue.Transparent;
-
         return material;
     }
 
