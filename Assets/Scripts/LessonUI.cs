@@ -50,6 +50,8 @@ public class LessonUI : MonoBehaviour
     Image promptBackground;
     Image warningBanner;
     Text warningText;
+    RectTransform captionRoot;
+    Text captionText;
     RectTransform crosshair;
     Image crosshairRing;
 
@@ -343,6 +345,20 @@ public class LessonUI : MonoBehaviour
         Place(hint.rectTransform, new Vector2(0f, 0f), new Vector2(1f, 0f), new Vector2(0f, 0f),
               new Vector2(Margin, Margin - 4f), new Vector2(-2f * Margin, 30f));
 
+        // Demonstration caption: a large subtitle used while the PASS sequence is played.
+        Image captionBand = CreateImage("CaptionBand", hudRoot, new Color(0.03f, 0.04f, 0.06f, 0.92f));
+        Place(captionBand.rectTransform, new Vector2(0.5f, 0f), new Vector2(0.5f, 0f),
+              new Vector2(0.5f, 0f), new Vector2(0f, 206f), new Vector2(1240f, 84f));
+        Image captionAccent = CreateImage("Accent", captionBand.transform, accentColour);
+        Place(captionAccent.rectTransform, new Vector2(0f, 0f), new Vector2(0f, 1f),
+              new Vector2(0f, 0.5f), Vector2.zero, new Vector2(8f, 0f));
+        captionText = CreateText("Caption", captionBand.transform, "", 40, TextAnchor.MiddleLeft,
+                                 true, Color.white);
+        Stretch(captionText.rectTransform, 0f);
+        Padding(captionText.rectTransform, 30f, 6f, 20f, 6f);
+        captionRoot = captionBand.rectTransform;
+        captionBand.gameObject.SetActive(false);
+
         // Crosshair with a ring that lights up over a button.
         crosshair = CreateNode("Crosshair", hudRoot);
         Place(crosshair, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
@@ -388,6 +404,18 @@ public class LessonUI : MonoBehaviour
         bool show = !string.IsNullOrEmpty(text);
         promptBackground.gameObject.SetActive(show);
         if (show) promptText.text = text;
+    }
+
+    /// <summary>
+    /// Large subtitle shown during an animated demonstration ("1 of 4  PULL the safety pin").
+    /// An empty string hides it.
+    /// </summary>
+    public void SetCaption(string text)
+    {
+        if (captionRoot == null) return;
+        bool show = !string.IsNullOrEmpty(text);
+        captionRoot.gameObject.SetActive(show);
+        if (show) captionText.text = text;
     }
 
     public void SetHudVisible(bool visible)

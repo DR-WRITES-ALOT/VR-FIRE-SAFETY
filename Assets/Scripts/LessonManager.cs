@@ -332,18 +332,12 @@ public class LessonManager : MonoBehaviour
                 Section("Section B - Masks and extinguishers");
                 Objective(LessonContent.SectionB.PassPracticeObjective);
                 if (extinguisherStation != null) extinguisherStation.practiceActive = true;
-                // Pop-up at the moment of use: why an ABC powder unit suits this bin fire.
-                {
-                    LessonContent.ExtinguisherInfo unit =
-                        Array.Find(LessonContent.Extinguishers, e => e.Id == "ext_abc");
-                    if (unit != null)
-                    {
-                        ShowInfo("B6  The unit at this station",
-                                 CardBody(unit),
-                                 "Now apply PASS: pull, aim at the base, squeeze, sweep.",
-                                 "Start PASS", null);
-                    }
-                }
+                // Pop-up at the moment of use: why this unit suits this bin fire, and what the
+                // player is about to watch happen on the model.
+                ShowInfo("B6  PASS in action",
+                         LessonContent.SectionB.PassStationBody,
+                         "Go to the extinguisher station and press E / trigger to start the demonstration.",
+                         "Got it", null);
                 break;
 
             case StagePassDone:

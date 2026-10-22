@@ -70,14 +70,20 @@ public class CorridorSmoke : MonoBehaviour
             shape.shapeType = ParticleSystemShapeType.Box;
             shape.scale = new Vector3(size.x * 0.75f, 0.4f, size.z * 0.7f);
 
+            // All three axes must use the same curve mode. Setting only x and z left y in
+            // the default Constant mode, which Unity reports as
+            // "Particle Velocity curves must all be in the same mode".
             ParticleSystem.VelocityOverLifetimeModule velocity = system.velocityOverLifetime;
             velocity.enabled = true;
             velocity.x = new ParticleSystem.MinMaxCurve(-0.12f, 0.4f);
+            velocity.y = new ParticleSystem.MinMaxCurve(-0.05f, 0.05f);
             velocity.z = new ParticleSystem.MinMaxCurve(-0.15f, 0.15f);
             velocity.space = ParticleSystemSimulationSpace.Local;
 
             ParticleSystem.RotationOverLifetimeModule rotation = system.rotationOverLifetime;
             rotation.enabled = true;
+            rotation.x = new ParticleSystem.MinMaxCurve(0f, 0f);
+            rotation.y = new ParticleSystem.MinMaxCurve(0f, 0f);
             rotation.z = new ParticleSystem.MinMaxCurve(-0.15f, 0.15f);
 
             ParticleSystem.ColorOverLifetimeModule colour = system.colorOverLifetime;

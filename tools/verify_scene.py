@@ -266,6 +266,32 @@ def main():
         if parent and parent not in transforms:
             problems.append("transform %s has missing parent %s" % (tr_id, parent))
 
+    # ---- stairwell envelope ----------------------------------------------
+    # The stairwell is a full-height shaft but the doorway into the second corridor is only
+    # 2.3 m high. If nothing fills the wall above that doorway the player can see over the
+    # second corridor's ceiling and out into the sky, which reads as a hole in the level.
+    named = {}
+    for go_id, body in game_objects.items():
+        components = body.get("m_Component") or []
+        if not components:
+            continue
+        transform = transforms.get(components[0].get("component", {}).get("fileID"))
+        if transform is None:
+            continue
+        named[body.get("m_Name")] = (transform.get("m_LocalPosition") or {},
+                                     transform.get("m_LocalScale") or {})
+
+    seal = named.get("Wall_LandingAbove")
+    if seal is None:
+        problems.append("Wall_LandingAbove is missing: the stairwell is open above the landing doorway")
+    else:
+        position, scale = seal
+        bottom = position.get("y", 0.0) - scale.get("y", 0.0) * 0.5
+        top = position.get("y", 0.0) + scale.get("y", 0.0) * 0.5
+        if bottom > -0.2 or top < 3.2 or scale.get("x", 0.0) < 3.4:
+            problems.append("Wall_LandingAbove does not seal the shaft above the landing doorway "
+                            "(y %.2f..%.2f, width %.2f)" % (bottom, top, scale.get("x", 0.0)))
+
     # ---- meta coverage ---------------------------------------------------
     for path in glob.glob(os.path.join(ROOT, "Assets", "**", "*"), recursive=True):
         if os.path.isdir(path):

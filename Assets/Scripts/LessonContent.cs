@@ -164,7 +164,23 @@ public static class LessonContent
             "spread faster than you can collect your things.\n\n" +
             "Try the question again.";
 
-        public const string PassPracticeObjective = "PASS step 1 of 4: interact (E / trigger) with the extinguisher to PULL the pin.";
+        public const string PassPracticeObjective =
+            "Walk to the extinguisher station next to the fire. Press E / trigger to start the PASS demonstration.";
+
+        public const string PassStationBody =
+            "The unit at this station is an <b>ABC dry powder extinguisher</b> - the most common type " +
+            "in Indian buildings. It is rated for <b>Class A</b> solids, <b>Class B</b> flammable " +
+            "liquids and <b>Class C</b> flammable gases, within the rating printed on its label.\n\n" +
+            "The bin fire in front of you is ordinary solid fuel, so ABC powder is the right choice " +
+            "here. A CO2 unit is for liquids and energised electrical equipment, and wet chemical is " +
+            "for cooking oil - neither is meant for this bin.\n\n" +
+            "<b>Watch the four PASS actions happen on the model:</b>\n" +
+            "1  PULL the safety pin out of the valve.\n" +
+            "2  AIM the horn at the base of the fire - the fuel, not the flames.\n" +
+            "3  SQUEEZE the lever to discharge.\n" +
+            "4  SWEEP slowly across the base until the flames are out.\n\n" +
+            "Stand about 1.5-2 m back, keep the exit behind you, and remember that a portable unit " +
+            "only gives a few seconds of discharge. If the fire is not out by then, leave.";
 
         public const string PassDoneTitle = "Demonstration complete";
         public const string PassDoneBody =

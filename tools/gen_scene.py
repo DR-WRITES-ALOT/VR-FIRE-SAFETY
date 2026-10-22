@@ -535,6 +535,12 @@ def build_shell(b):
                                         LANDING_END), (landing_side, CEIL, WALL), "WallPaint")
     b.box("Wall_LandingLintel", env, (0, LOWER + 2.75, LANDING_END), (STAIR_HALF * 2, 0.9, WALL),
           "WallPaint")
+    # The stairwell is a full-height shaft, but the doorway into the second corridor is only
+    # 2.3 m high. Without this panel the strip of wall above the doorway is missing and the
+    # player looks from the stairs straight over the second corridor's ceiling into the open
+    # sky, with outdoor signs apparently hanging in mid-air.
+    b.box("Wall_LandingAbove", env, (0, 1.55, LANDING_END),
+          (STAIR_HALF * 2 + WALL * 2, 3.7, WALL), "WallPaint")
 
     # handrails follow the slope of the flight
     slope = math.degrees(math.atan2(RISE, RUN))
@@ -733,6 +739,46 @@ def build_extinguisher_model(b, parent, name, label_texture, pos, scale=1.0, bod
     return root
 
 
+def build_practice_extinguisher(b, parent, pos):
+    """A small ABC powder unit with moving parts, used for the PASS demonstration.
+
+    The parts are separate transforms so the script can animate the real actions:
+      Head   - valve, hose and horn; it turns to aim and sweeps across the fire
+      LeverPivot - the squeeze handle
+      Pin    - the safety pin, which is pulled out and dropped onto the table
+      SprayOrigin - where the powder leaves the horn, pointing at the fire
+    """
+    root = b.empty("PracticeExtinguisher", parent, pos)
+    # Slightly larger than a real 2 kg unit so the pin, lever and horn read clearly when the
+    # player watches the demonstration from a couple of metres away.
+    root.scale = (1.2, 1.2, 1.2)
+    b.prop("Body", root, (0, 0.33, 0), (0.17, 0.33, 0.17), "ExtinguisherRed", mesh="cylinder")
+    b.prop("Base", root, (0, 0.02, 0), (0.19, 0.04, 0.19), "ExtinguisherBlack", mesh="cylinder")
+    b.prop("Shoulder", root, (0, 0.66, 0), (0.15, 0.05, 0.15), "ExtinguisherRed", mesh="cylinder")
+    b.sign("Label", root, (0, 0.34, 0.092), 0.2, 0.22, "ext_abc")
+
+    # Valve, handle, hose and horn all sit on one pivot so aiming turns the whole head.
+    head = b.empty("Head", root, (0, 0.72, 0), (-0.0, -34.0, 0.0))
+    b.prop("Valve", head, (0, 0.0, 0), (0.06, 0.06, 0.06), "Metal", mesh="cylinder")
+    b.box("HandleGrip", head, (0, 0.1, 0), (0.02, 0.13, 0.08), "DarkMetal", collider=False)
+
+    lever = b.empty("LeverPivot", head, (-0.08, 0.06, 0))
+    b.box("Lever", lever, (0.08, 0, 0), (0.16, 0.025, 0.04), "DarkMetal", collider=False)
+
+    # Safety pin through the valve: a small stem with a ring on the end.
+    pin = b.empty("Pin", head, (0.02, 0.02, 0.0))
+    b.box("PinStem", pin, (0, 0, 0.0), (0.014, 0.014, 0.09), "Metal", collider=False)
+    b.prop("PinRing", pin, (0, 0, 0.062), (0.055, 0.055, 0.012), "Metal", mesh="cylinder",
+           rot=(90, 0, 0))
+
+    b.box("Hose", head, (0.12, -0.09, 0), (0.18, 0.032, 0.032), "Rubber", collider=False)
+    b.prop("Horn", head, (0.24, -0.11, 0), (0.14, 0.075, 0.075), "ExtinguisherBlack",
+           mesh="cylinder", rot=(0, 0, 90))
+    # Local +Z of this empty points along the horn, out toward the fire.
+    spray = b.empty("SprayOrigin", head, (0.33, -0.13, 0), (0, 90, 0))
+    return root, head, lever, pin, spray
+
+
 def build_section_b(b, env):
     # ---- alarm call point (left wall) -----------------------------------
     alarm_root = b.empty("AlarmCallPoint", env, (-(HALF - 0.1), 1.35, 4.2))
@@ -806,7 +852,12 @@ def build_section_b(b, env):
     b.box("Station_Top", station, (0, 0.42, 0), (0.55, 0.06, 0.5), "DoorMetal", collider=False)
     b.box("Station_Leg", station, (0, 0.2, 0), (0.12, 0.4, 0.12), "DarkMetal", collider=False)
     b.box("Station_Base", station, (0, 0.02, 0), (0.5, 0.04, 0.45), "DarkMetal", collider=False)
-    build_extinguisher_model(b, station, "PracticeExtinguisher", "ext_abc", (0, 0.45, 0), 0.95)
+    unit = build_practice_extinguisher(b, station, (0, 0.45, 0))
+    refs["station_unit"] = unit[0]
+    refs["station_head"] = unit[1]
+    refs["station_lever"] = unit[2]
+    refs["station_pin"] = unit[3]
+    refs["station_spray"] = unit[4]
     b.collider_node("StationInteractBox", station, (0, 0.75, 0), (0.7, 1.5, 0.7))
     refs["station"] = station
 
@@ -1346,18 +1397,22 @@ def main():
     # ---- extinguisher practice station ----------------------------------
     station = refs["station"]
     refs["station_script"] = station.mono("ExtinguisherStation", [
-        "  interactionName: Use the extinguisher",
+        "  interactionName: Start the PASS demonstration",
         "  available: 1",
         "  pulseOnHover: 1",
         "  hoverScale: 1.03",
         "  fire: %s" % ref(refs["fire_script"]),
+        "  head: %s" % ref(refs["station_head"].tr_id),
+        "  lever: %s" % ref(refs["station_lever"].tr_id),
+        "  pin: %s" % ref(refs["station_pin"].tr_id),
+        "  sprayOrigin: %s" % ref(refs["station_spray"].tr_id),
+        "  headStowed: {x: 0, y: -34, z: 0}",
+        "  headAimed: {x: 0, y: 0, z: -10}",
+        "  sweepDegrees: 13",
+        "  leverPressedAngle: -30",
         "  practiceActive: 0",
-        "  highlightRenderer: {fileID: 0}",
-        "  stepPrompts:",
-        "  - PULL the safety pin",
-        "  - AIM the nozzle at the base of the fire",
-        "  - SQUEEZE the handle",
-        "  - SWEEP across the base of the fire",
+        "  audioSource: {fileID: 0}",
+        "  hissClip: %s" % clip("hiss"),
     ])
 
     # ---- fire door ------------------------------------------------------

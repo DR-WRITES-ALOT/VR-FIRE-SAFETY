@@ -75,7 +75,7 @@ monitor and a headset.
 ### Environment (one continuous route)
 
 1. **First corridor** – starting point, fire-action notice, red alarm call point, 112 emergency
-   phone, mask teaching display, six labelled extinguisher models, PASS poster, one small
+   phone, mask teaching display, six labelled extinguisher models, an animated PASS practice station, one small
    contained fire in a metal bin, and a practice extinguisher stand.
 2. **Stair lobby and one flight of stairs** – lift doors with a call button, "do not use the
    lift" signage, one 20-step flight with handrails on both sides.
@@ -88,7 +88,7 @@ monitor and a headset.
 | Section | Player does | Lesson teaches |
 | --- | --- | --- |
 | A | Reads the initial briefing, raises the alarm (`E`), uses the 112 phone | Raise the alarm, alert others only if safe, call 112, evacuate promptly, avoid smoke |
-| B | Studies the mask display, reviews all six extinguisher cards, makes a safe-response decision, practises PASS on the single contained fire | Mask limitations (cloth, N95, escape hood, SCBA), Indian fire classes A/B/C/D/F, extinguisher types, water and gas warnings, PASS, when to abandon firefighting and leave |
+| B | Studies the mask display, reviews all six extinguisher cards, makes a safe-response decision, watches PASS performed in action on the single contained fire | Mask limitations (cloth, N95, escape hood, SCBA), Indian fire classes A/B/C/D/F, extinguisher types, water and gas warnings, PASS, when to abandon firefighting and leave |
 | C | Follows the EXIT signs, checks the lift (and is shown why not to use it), descends the flight of stairs, meets the dense smoke, closes the fire door, exits the building, walks to the assembly point | Safe stair use, why lifts are avoided, smoke toxicity and disorientation, "staying low is not a guarantee", stop and turn back rather than enter dense smoke, closing a fire door, what to do if trapped |
 | D | Reads the two first-aid panels at the assembly point | Burn first aid (20 minutes cool running water, what not to apply, when to seek urgent care) and smoke-inhalation first aid (never re-enter, call 112, monitor breathing, follow dispatcher CPR/AED instructions) |
 
@@ -111,7 +111,7 @@ Assets/
     SimpleInteractable.cs            generic "press E" object (phone, displays, cards, lift)
     AlarmController.cs               alarm sound, flashing strobe, lesson event
     FireDemo.cs                      the single contained fire + PASS extinguishing sequence
-    ExtinguisherStation.cs           the four PASS practice steps
+    ExtinguisherStation.cs           animated PASS demonstration (pin, aim, squeeze, sweep)
     DoorController.cs                hinged doors (fire door, exit doors)
     EvacuationController.cs          checkpoints and the one smoke hazard
     CheckpointTrigger.cs             trigger volume that reports route progress

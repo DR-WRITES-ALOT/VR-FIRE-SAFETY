@@ -28,6 +28,7 @@ public class FireDemo : MonoBehaviour
     bool burning = true;
     bool extinguished;
     bool discharging;
+    bool dousing;
 
     public bool IsBurning => burning;
     public bool IsExtinguished => extinguished;
@@ -189,9 +190,54 @@ public class FireDemo : MonoBehaviour
 
     void Update()
     {
-        if (!burning || fireLight == null) return;
+        if (!burning || dousing || fireLight == null) return;
         float flicker = 0.75f + Mathf.PerlinNoise(Time.time * 6f, 0.3f) * 0.5f;
         fireLight.intensity = baseLightIntensity * flicker * (discharging ? 0.55f : 1f);
+    }
+
+    /// <summary>
+    /// Put the fire out without using the built-in spray. The PASS demonstration has its
+    /// own jet coming out of the extinguisher horn, so it only needs the fire to die down.
+    /// </summary>
+    public void Douse(float seconds)
+    {
+        if (!burning || dousing) return;
+        StartCoroutine(DouseRoutine(seconds));
+    }
+
+    IEnumerator DouseRoutine(float seconds)
+    {
+        dousing = true;
+
+        if (flames != null)
+        {
+            ParticleSystem.EmissionModule emission = flames.emission;
+            emission.rateOverTime = 0f;
+        }
+        if (embers != null) embers.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        if (smoke != null)
+        {
+            ParticleSystem.EmissionModule emission = smoke.emission;
+            emission.rateOverTime = 0f;
+            smoke.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        }
+
+        float start = fireLight != null ? fireLight.intensity : 0f;
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / Mathf.Max(0.05f, seconds);
+            if (fireLight != null) fireLight.intensity = Mathf.Lerp(start, 0f, Mathf.Clamp01(t));
+            yield return null;
+        }
+
+        if (fireLight != null) fireLight.enabled = false;
+        if (flames != null) flames.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        if (audioSource != null) audioSource.Stop();
+
+        burning = false;
+        extinguished = true;
+        dousing = false;
     }
 
     /// <summary>
