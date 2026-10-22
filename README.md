@@ -264,7 +264,8 @@ Key points taken from the sources:
   match, every runtime package version is one used by public projects committed with 6000.5.3f1,
   no Unity 2022-only package or removed module is requested, Active Input Handling is *Both*,
   colour space is Linear, the build settings list the scene with its current GUID, the uGUI
-  components the interface needs are present, and no script uses an API removed in Unity 6
+  components the interface needs are present, every script file name matches its class name (Unity
+  will not attach a component otherwise), and no script uses an API removed in Unity 6
   (`FindObjectOfType`, `UnityEngine.VR`, `WWW`, `Application.LoadLevel`, and similar).
 
 **Not verified here (no Unity Editor or headset is available in this environment)**

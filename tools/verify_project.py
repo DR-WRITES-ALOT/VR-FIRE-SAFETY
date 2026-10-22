@@ -212,6 +212,33 @@ def check_ui_stack(problems):
             problems.append("the scene has no %s component (uGUI GUID %s)" % (label, guid))
 
 
+
+def check_script_names(problems):
+    """Unity only attaches a MonoBehaviour when the class name matches the file name."""
+    classes = {}
+    for folder in ("Assets/Scripts", "Assets/Editor"):
+        for name in sorted(os.listdir(os.path.join(ROOT, folder))):
+            if not name.endswith(".cs"):
+                continue
+            text = read(folder + "/" + name)
+            declared = []
+            for line in text.split("\n"):
+                stripped = line.strip()
+                if stripped.startswith("//") or stripped.startswith("*") or stripped.startswith("///"):
+                    continue          # prose in a comment can contain the word "class"
+                match = re.match(r"^\s*(?:(?:public|internal|private|protected|static|abstract|sealed|partial)\s+)*"
+                                 r"(?:class|interface)\s+(\w+)", line)
+                if match:
+                    declared.append(match.group(1))
+            if not declared:
+                continue
+            classes[name] = declared[0]
+            if declared[0] != name[:-3]:
+                problems.append("%s/%s declares %s; Unity needs the file name to match the class name"
+                                % (folder, name, declared[0]))
+    return len(classes)
+
+
 def main():
     problems, notes = [], []
     editor = check_editor_version(problems, notes)
@@ -219,6 +246,7 @@ def main():
     check_player_settings(problems, notes)
     check_build_settings(problems)
     files = check_scripts(problems, notes)
+    check_script_names(problems)
     check_ui_stack(problems)
 
     print("Editor: %s" % editor)
