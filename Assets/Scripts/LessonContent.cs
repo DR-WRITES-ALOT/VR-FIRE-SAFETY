@@ -146,7 +146,7 @@ public static class LessonContent
             "spread faster than you can collect your things.\n\n" +
             "Try the question again.";
 
-        public const string PassPracticeObjective = "PASS step 1 of 4: interact (E) with the extinguisher to PULL the pin.";
+        public const string PassPracticeObjective = "PASS step 1 of 4: interact (E / trigger) with the extinguisher to PULL the pin.";
 
         public const string PassDoneTitle = "Demonstration complete";
         public const string PassDoneBody =
