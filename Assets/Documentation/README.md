@@ -195,7 +195,12 @@ Editor step in every Unity VR project):
    particle materials fetch their shader by name, and unused shaders are stripped from builds.
 
 The training itself does not depend on which controller model is used: it reads the head pose,
-the left/right thumbsticks and the right trigger through `UnityEngine.XR`.
+the left/right thumbsticks and the right trigger through `UnityEngine.XR` (`InputDevices` and
+`CommonUsages`). These APIs are marked *Legacy* in the Unity 6.5 scripting reference but are still
+supported. If a particular OpenXR runtime reports the headset but not the controllers, the trainer
+logs a warning at runtime; the fix is to enable the controller interaction profile for that headset
+in the OpenXR settings, or to swap the input reads in `PlayerController` for XR Interaction Toolkit
+actions (the package is already installed).
 
 > The scene does not use XR Interaction Toolkit interactors, because those need a controller rig
 > that could not be verified in this environment. The XR Interaction Toolkit and OpenXR packages are

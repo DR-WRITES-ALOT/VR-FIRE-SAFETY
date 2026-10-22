@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
 
     IInteractable focused;
     float nextXrCheck;
+    float xrInputWarnTime;
+    bool warnedNoXrControllers;
 
     public bool IsXrActive => xrActive;
     public bool HasUiFocus => uiFocus;
@@ -199,6 +201,21 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 value;
             if (right.TryGetFeatureValue(CommonUsages.primary2DAxis, out value)) turnAxis = value;
+        }
+
+        // A headset can run without controllers being reported (for example when the
+        // OpenXR interaction profile for the device is not enabled). Say so once,
+        // instead of leaving the player wondering why the sticks do nothing.
+        if (!warnedNoXrControllers && !left.isValid && !right.isValid)
+        {
+            if (xrInputWarnTime == 0f) xrInputWarnTime = Time.unscaledTime;
+            else if (Time.unscaledTime - xrInputWarnTime > 3f)
+            {
+                warnedNoXrControllers = true;
+                Debug.LogWarning("[Fire Safety] XR is active but no controller devices were reported. " +
+                                 "Check that the OpenXR runtime is running and that the controller " +
+                                 "interaction profile for your headset is enabled.");
+            }
         }
 
         if (Mathf.Abs(turnAxis.x) > 0.7f)
