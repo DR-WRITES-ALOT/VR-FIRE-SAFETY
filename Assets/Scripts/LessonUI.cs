@@ -352,7 +352,8 @@ public class LessonUI : MonoBehaviour
             float buttonWidth = (totalWidth - spacing * (count - 1)) / count;
             for (int i = 0; i < count; i++)
             {
-                float x = i * (buttonWidth + spacing);
+                // Centre the whole row: buttons are anchored to the middle of the button row.
+                float x = (i - (count - 1) * 0.5f) * (buttonWidth + spacing);
                 Action action = (buttonActions != null && i < buttonActions.Length) ? buttonActions[i] : null;
                 // Close this panel first, then run the lesson step. The step may open the next panel.
                 Action wrapped = () =>

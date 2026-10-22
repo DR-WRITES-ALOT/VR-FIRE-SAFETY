@@ -229,8 +229,8 @@ Key points taken from the sources:
   all 5 checkpoints and both door events are handled by `LessonManager`; all 30 lesson stages are
   declared, entered and (apart from the menu sentinel) handled; every `LessonContent` member used
   by the code is defined; all 14 interactables have colliders and all checkpoints/hazard zones are
-  triggers; every `LessonManager` scene reference (12 objects, 6 extinguisher cards, 2 audio clips)
-  is assigned.
+  triggers; the six wall-card ids map onto the six entries in `LessonContent.Extinguishers`; every
+  `LessonManager` scene reference (12 objects, 6 extinguisher cards, 2 audio clips) is assigned.
 * The level layout was reviewed from `build/plan_route.png`, `build/plan_outdoor.png` and
   `build/section*.png`, generated from the scene by `tools/render_plan.py`.
 * Teaching content was checked against the references listed above.

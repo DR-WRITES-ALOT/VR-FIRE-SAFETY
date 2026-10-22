@@ -287,6 +287,27 @@ def check_manager_refs(problems):
     problems.append("LessonManager was not found in the scene")
 
 
+
+def check_extinguisher_cards(problems):
+    """Each wall card must map to a defined extinguisher entry, or the lesson cannot finish."""
+    defined = set(re.findall(r'Id\s*=\s*"([^"]+)"', read(CONTENT)))
+    scene_ids = set()
+    for value in scene_field_values().get("eventId", ()):
+        if value.startswith("ext_card_"):
+            scene_ids.add(value[len("ext_card_"):])
+    # scene cards are ext_card_water, content ids are ext_water
+    scene_keys = {"ext_" + card for card in scene_ids}
+    missing = scene_keys - defined
+    unused = defined - scene_keys
+    for card in sorted(missing):
+        problems.append("card eventId %r has no matching entry in LessonContent.Extinguishers" % card)
+    for card in sorted(unused):
+        problems.append("LessonContent.Extinguishers defines %r but no card uses it" % card)
+    if len(scene_ids) != 6:
+        problems.append("expected 6 extinguisher cards in the scene, found %d" % len(scene_ids))
+    return len(scene_ids)
+
+
 def main():
     problems = []
     values, handled = check_events(problems)
@@ -294,13 +315,15 @@ def main():
     member_count, referenced = check_content(problems)
     interactables = check_colliders(problems)
     check_manager_refs(problems)
+    cards = check_extinguisher_cards(problems)
 
     print("Scene lesson fields: " + ", ".join(
         "%s=%d" % (field, len(ids)) for field, ids in sorted(values.items())))
     print("Handled event ids: %d" % len(handled))
     print("Stage constants: %d, LessonContent members: %d (%d referenced)"
           % (len(constants), member_count, referenced))
-    print("Interactables with colliders: %d" % interactables)
+    print("Interactables with colliders: %d, extinguisher cards: %d"
+          % (interactables, cards))
 
     if problems:
         print("\n%d problem(s):" % len(problems))

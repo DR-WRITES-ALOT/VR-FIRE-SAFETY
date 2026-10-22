@@ -672,7 +672,10 @@ public class LessonManager : MonoBehaviour
             return;
         }
 
-        LessonContent.ExtinguisherInfo info = Array.Find(LessonContent.Extinguishers, e => e.Id == id);
+        // Scene cards report "ext_card_water"; LessonContent ids are "ext_water".
+        string key = id.StartsWith("ext_") ? id : "ext_" + id;
+        LessonContent.ExtinguisherInfo info =
+            Array.Find(LessonContent.Extinguishers, e => e.Id == key || e.Id == id);
         if (info == null) return;
 
         reviewedExtinguishers.Add(id);

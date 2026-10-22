@@ -46,10 +46,12 @@ public class ExtinguisherStation : InteractableBase
     {
         if (!practiceActive) return;
 
+        string key = PlayerController.Instance != null && PlayerController.Instance.IsXrActive
+            ? "Trigger" : "E";
         if (step == 0 && LessonUI.Instance != null)
-            LessonUI.Instance.SetPrompt("[E]  Pin pulled - now " + stepPrompts[1].ToLowerInvariant());
+            LessonUI.Instance.SetPrompt("[" + key + "]  Pin pulled - now " + stepPrompts[1].ToLowerInvariant());
         else if (step == 1 && LessonUI.Instance != null)
-            LessonUI.Instance.SetPrompt("[E]  Aimed at the base - now " + stepPrompts[2].ToLowerInvariant());
+            LessonUI.Instance.SetPrompt("[" + key + "]  Aimed at the base - now " + stepPrompts[2].ToLowerInvariant());
 
         step++;
         NotifyLesson("pass_step_" + step);
