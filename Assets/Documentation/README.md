@@ -126,6 +126,8 @@ tools/                               generators and static checks (Python 3, not
   verify_scene.py                    reference / GUID / serialized-field integrity
   verify_flow.py                     lesson event, stage, content and collider checks
   verify_project.py                  Unity version, packages, URP wiring, GUIDs, player settings, APIs
+  check_cs_access.py                 cross-class C# accessibility (private/protected misuse)
+  check_all.py                       runs every check above in one go
   set_xr_packages.py                 switch between VR and desktop-only package sets
   render_plan.py                     top-down plan and section images for layout review
 ```
@@ -150,6 +152,8 @@ python3 tools/gen_scene.py      # the Unity scene + build settings
 python3 tools/verify_scene.py   # fileIDs, GUIDs, script fields, metas
 python3 tools/verify_flow.py    # lesson events, stages, content, colliders
 python3 tools/verify_project.py # Unity 6.5 version, packages, URP wiring, GUIDs, player settings
+python3 tools/check_cs_access.py # C# accessibility (a compiler is not available here)
+python3 tools/check_all.py      # all of the above in one command
 python3 tools/render_plan.py    # writes build/plan_*.png and build/section*.png
 ```
 
@@ -214,6 +218,29 @@ actions (the package is already installed).
 ---
 
 ## 6. Troubleshooting
+
+### `DirectoryNotFoundException` / "Asset import failed" for `Packages/...` files
+
+This is a Windows path-length failure, not a project defect. Unity resolves package files next to
+the project folder, and the deepest URP / Input System editor files are ~145 characters on their
+own. Windows refuses paths longer than 260 characters, so a project that sits in a long folder —
+for example a double-unzipped copy:
+
+```
+C:\Users\<name>\Downloads\VR-FIRE-SAFETY-arena-0f6e8791-vr-fire-safety\VR-FIRE-SAFETY-arena-0f6e8791-vr-fire-safety
+```
+
+(121 characters before `\Packages\` is even added) fails like this:
+
+```
+DirectoryNotFoundException: Could not find a part of the path "...\Packages\com.unity.render-pipelines.core\Editor-PrivateShared\..."
+Asset import failed, "Packages/com.unity.inputsystem/.../InputActionsProjectSettings.uxml" > DirectoryNotFoundException
+Host type is not matching any asset type at Path Packages/com.unity.render-pipelines.core/...urshader
+```
+
+**Fix:** move the project to a short path such as `C:\VR\FireSafety` (one folder, one copy), then
+delete `Library/` and reopen. The trainer logs a warning on load and **Tools ▸ VR Fire Safety ▸
+Check Project Location** reports the exact numbers if the folder is too deep.
 
 ### "The AssetImportWorkerHW0 has crashed" while opening the project
 
@@ -303,6 +330,12 @@ Key points taken from the sources:
 * `tools/verify_scene.py` passes: all 1,153 scene objects resolve, every `fileID` reference exists,
   every asset GUID maps to a real `.meta` file, every serialized field exists in the matching C#
   class, and every transform parent/child link agrees.
+* `tools/check_cs_access.py` passes: it resolves every cross-class member use in the project and
+  reports private/protected members read from another class and writes to properties whose setter is
+  not public. This check was added after two real compile errors (CS0272 on
+  `EvacuationController.RouteComplete`, CS0122 on `DoorController.finished`) reached the Editor; both
+  are fixed by giving those types public `ResetRoute()` / `ResetForLesson(bool)` methods, and the
+  checker reproduces both errors if they are reintroduced.
 * `tools/verify_flow.py` passes: all 10 scene event ids (including the six extinguisher cards),
   all 5 checkpoints and both door events are handled by `LessonManager`; all 30 lesson stages are
   declared, entered and (apart from the menu sentinel) handled; every `LessonContent` member used

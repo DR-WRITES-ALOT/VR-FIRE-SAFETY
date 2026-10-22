@@ -66,6 +66,25 @@ public class EvacuationController : MonoBehaviour
             audioSource.PlayOneShot(checkpointClip, 0.3f);
     }
 
+    /// <summary>
+    /// Put the route back to its starting state for another attempt: the smoke returns,
+    /// every checkpoint is re-armed and the completion flag is cleared.
+    /// </summary>
+    public void ResetRoute()
+    {
+        RouteComplete = false;
+        LastCheckpoint = null;
+        if (corridorSmoke != null) corridorSmoke.Play();
+
+        for (int i = 0; i < checkpoints.Count; i++)
+        {
+            Checkpoint checkpoint = checkpoints[i];
+            checkpoint.reached = false;
+            // A trigger only fires once, so it has to be re-armed explicitly.
+            if (checkpoint.trigger != null) checkpoint.trigger.Rearm();
+        }
+    }
+
     public bool IsCheckpointReached(string id)
     {
         Checkpoint checkpoint = checkpoints.Find(c => c.id == id);

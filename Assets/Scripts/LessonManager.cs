@@ -219,22 +219,14 @@ public class LessonManager : MonoBehaviour
         }
         if (evacuation != null)
         {
-            evacuation.RouteComplete = false;
-            evacuation.SetSmokeHazardActive(true);
-            foreach (var checkpoint in evacuation.checkpoints)
-            {
-                checkpoint.reached = false;
-                // Triggers only fire once, so re-arm them for a fresh attempt.
-                if (checkpoint.trigger != null) checkpoint.trigger.Rearm();
-            }
+            // Re-arms every checkpoint and brings the smoke hazard back.
+            evacuation.ResetRoute();
         }
         if (storeDoor != null)
         {
             // The fire door stays locked until the evacuation reaches the smoke hazard,
             // so it cannot be closed early and leave the hazard impossible to resolve.
-            storeDoor.finished = false;
-            storeDoor.closeOnce = true;
-            storeDoor.Lock();
+            storeDoor.ResetForLesson(true);
         }
         if (exitDoor != null) exitDoor.Lock();
         if (liftCall != null) liftCall.available = true;

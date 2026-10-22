@@ -94,6 +94,19 @@ public class DoorController : InteractableBase
         finished = true;
     }
 
+    /// <summary>
+    /// Return the door to the state the lesson expects at the start of an attempt:
+    /// usable again, and locked or unlocked as requested.
+    /// </summary>
+    public void ResetForLesson(bool startLocked)
+    {
+        finished = false;
+        closeOnce = true;
+        locked = startLocked;
+        open = startsOpen;
+        if (pivot != null) pivot.localRotation = open ? openRotation : closedRotation;
+    }
+
     public void Unlock()
     {
         locked = false;

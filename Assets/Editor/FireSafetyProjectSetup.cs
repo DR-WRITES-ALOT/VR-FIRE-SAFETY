@@ -142,6 +142,11 @@ public static class FireSafetyProjectSetup
         // Editor / project environment: these are the two settings that most often make a
         // Unity 6 project look "broken" even though every object is wired correctly.
         notes.Add("Unity version: " + Application.unityVersion);
+        if (PathIsRisky(out int pathLength, out int worstCase))
+            errors.Add("The project folder path is " + pathLength + " characters and the longest package " +
+                       "file would reach " + worstCase + ". " + PathAdvice() +
+                       " Windows fails to import package files over " + WindowsPathLimit +
+                       " characters (DirectoryNotFoundException, asset import worker crash).");
 
         int inputHandler = ActiveInputHandler();
         if (inputHandler == 1)
@@ -215,6 +220,74 @@ public static class FireSafetyProjectSetup
         if (XRSettings.supportedDevices.Length == 0)
             Debug.Log("[Fire Safety] Desktop play works. For a headset, enable OpenXR under " +
                       "Project Settings > XR Plug-in Management, then enable the feature for your device.");
+    }
+
+
+    // ------------------------------------------------------------------ //
+    // Project location
+    // ------------------------------------------------------------------ //
+
+    // Unity resolves package files next to the project, and the deepest URP / Input System
+    // editor asset paths are about 145 characters on their own. Windows refuses paths over
+    // 260 characters, so a project in a long folder (for example a double-unzipped copy in
+    // Downloads) makes Unity throw DirectoryNotFoundException and "Asset import failed"
+    // for those files, and the asset import worker can crash.
+    const int EstimatedLongestPackagePath = 145;
+    const int WindowsPathLimit = 260;
+    const int SafetyMargin = 15;
+
+    static string ProjectRoot()
+    {
+        return System.IO.Path.GetDirectoryName(Application.dataPath);
+    }
+
+    /// <summary>True when the project sits somewhere Unity cannot reliably import from.</summary>
+    static bool PathIsRisky(out int length, out int worstCase)
+    {
+        string root = ProjectRoot();
+        length = root.Length;
+        worstCase = length + EstimatedLongestPackagePath;
+
+        if (worstCase + SafetyMargin > WindowsPathLimit) return true;
+        foreach (char character in root)
+        {
+            if (character > 127) return true;   // non-ASCII paths also upset some importers
+        }
+        return false;
+    }
+
+    static string PathAdvice()
+    {
+        return "Move the project to a short path such as C:\\VR\\FireSafety, then delete the " +
+               "Library folder and reopen the project.";
+    }
+
+    [InitializeOnLoadMethod]
+    static void WarnAboutProjectPath()
+    {
+        if (!PathIsRisky(out int length, out int worstCase)) return;
+
+        Debug.LogWarning("[Fire Safety] The project folder path is " + length + " characters long ("
+                         + ProjectRoot() + "). The longest package files add about "
+                         + EstimatedLongestPackagePath + ", which reaches " + worstCase +
+                         " characters - Windows refuses paths over " + WindowsPathLimit +
+                         ". Expect DirectoryNotFoundException, \"Asset import failed\" and possibly " +
+                         "an asset import worker crash. " + PathAdvice());
+    }
+
+    [MenuItem("Tools/VR Fire Safety/Check Project Location", false, 4)]
+    public static void CheckProjectLocation()
+    {
+        PathIsRisky(out int length, out int worstCase);
+        Debug.Log("[Fire Safety] Project folder: " + ProjectRoot() + " (" + length +
+                  " characters). The longest package file would reach about " + worstCase + ".");
+
+        if (worstCase + SafetyMargin > WindowsPathLimit)
+            Debug.LogError("[Fire Safety] This path is too long for Windows. " + PathAdvice());
+        else if (worstCase + 3 * SafetyMargin > WindowsPathLimit)
+            Debug.LogWarning("[Fire Safety] Close to the 260 character Windows path limit. " + PathAdvice());
+        else
+            Debug.Log("[Fire Safety] Project path length is fine.");
     }
 
     static void Require<T>(ref T reference, string label, List<string> errors) where T : Object
