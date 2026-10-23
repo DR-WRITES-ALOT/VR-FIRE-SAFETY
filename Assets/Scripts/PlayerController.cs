@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 
@@ -36,6 +37,14 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Drive the camera from the headset pose reported by the XR runtime.")]
     public bool driveCameraFromXrDevice = true;
 
+    [Tooltip("Ask the runtime for a floor-relative origin, so the headset reports the player's " +
+             "real height. Without this the head pose is relative to wherever the headset was " +
+             "when tracking started, and the eyes end up at floor level.")]
+    public bool requestFloorTrackingOrigin = true;
+
+    [Tooltip("Eye height used only when the runtime can offer a device-relative origin only.")]
+    public float vrDeviceOriginEyeHeight = 1.62f;
+
     CharacterController controller;
     float pitch;
     float verticalVelocity;
@@ -48,8 +57,21 @@ public class PlayerController : MonoBehaviour
     float xrInputWarnTime;
     bool warnedNoXrControllers;
 
+    // VR state that has to be tracked separately from "an XR session exists":
+    // a session can be active before the head pose is available, and some runtimes
+    // (and the Mock HMD) render in stereo but report no head device at all.
+    bool xrHeadTracked;
+    TrackingOriginModeFlags trackingOrigin = TrackingOriginModeFlags.Unknown;
+    readonly List<XRInputSubsystem> xrInputSubsystems = new List<XRInputSubsystem>();
+
     public bool IsXrActive => xrActive;
     public bool HasUiFocus => uiFocus;
+
+    /// <summary>True when the headset itself is supplying the camera pose.</summary>
+    public bool IsHeadTracked => xrActive && xrHeadTracked;
+
+    /// <summary>Floor-relative origin confirmed by the runtime (best height accuracy).</summary>
+    public bool HasFloorTrackingOrigin => trackingOrigin == TrackingOriginModeFlags.Floor;
 
     /// <summary>
     /// True when the crosshair should act as a pointer for interface buttons.
@@ -85,6 +107,17 @@ public class PlayerController : MonoBehaviour
     {
         bool wasActive = xrActive;
         xrActive = XRSettings.isDeviceActive;
+
+        // The tracking-origin request can only be made once the input subsystem is running,
+        // which may be a few frames after the session becomes active, so keep trying.
+        if (xrActive && trackingOrigin == TrackingOriginModeFlags.Unknown)
+            RequestTrackingOrigin();
+        if (!xrActive)
+        {
+            trackingOrigin = TrackingOriginModeFlags.Unknown;
+            xrHeadTracked = false;
+        }
+
         if (xrActive == wasActive || playerCamera == null) return;
 
         // In VR the headset supplies the eye pose, so the camera must sit on the rig origin.
@@ -124,7 +157,10 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (xrActive)
+        // A headset that renders but reports no head pose (for example the Mock HMD used for
+        // Editor testing) would otherwise leave the camera stuck at the rig origin with no way
+        // to look around. Keep the stereo rendering, but fall back to mouse/WASD control.
+        if (xrActive && xrHeadTracked)
             UpdateXrInput();
         else
             UpdateDesktopInput();
@@ -165,16 +201,58 @@ public class PlayerController : MonoBehaviour
 
     void UpdateXrHeadPose()
     {
+        xrHeadTracked = false;
         if (!driveCameraFromXrDevice || playerCamera == null) return;
         InputDevice head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
         if (!head.isValid) return;
 
+        // With a floor origin the head pose already contains the player's real height.
+        // With a device origin it does not, so add an eye height or the view starts on the floor.
+        float heightOffset = trackingOrigin == TrackingOriginModeFlags.Floor
+            ? 0f
+            : vrDeviceOriginEyeHeight;
+
         Vector3 headPosition;
         Quaternion headRotation;
         if (head.TryGetFeatureValue(CommonUsages.centerEyePosition, out headPosition))
-            playerCamera.transform.localPosition = headPosition;
+        {
+            playerCamera.transform.localPosition = headPosition + new Vector3(0f, heightOffset, 0f);
+            xrHeadTracked = true;
+        }
         if (head.TryGetFeatureValue(CommonUsages.centerEyeRotation, out headRotation))
+        {
             playerCamera.transform.localRotation = headRotation;
+            xrHeadTracked = true;
+        }
+    }
+
+    /// <summary>
+    /// Ask XR for a floor-relative tracking origin. Without it, "head pose" is measured from
+    /// wherever the headset was when tracking started, which puts the eyes at floor level in
+    /// this rig (the player root sits on the floor and the camera is a child of it).
+    /// </summary>
+    void RequestTrackingOrigin()
+    {
+        xrInputSubsystems.Clear();
+        SubsystemManager.GetSubsystems(xrInputSubsystems);
+
+        for (int i = 0; i < xrInputSubsystems.Count; i++)
+        {
+            XRInputSubsystem subsystem = xrInputSubsystems[i];
+            if (subsystem == null || !subsystem.running) continue;
+
+            TrackingOriginModeFlags supported = subsystem.GetSupportedTrackingOriginModes();
+            if (requestFloorTrackingOrigin &&
+                (supported & TrackingOriginModeFlags.Floor) != 0 &&
+                subsystem.TrySetTrackingOriginMode(TrackingOriginModeFlags.Floor))
+            {
+                trackingOrigin = TrackingOriginModeFlags.Floor;
+                return;
+            }
+
+            // Device-relative only: the eye-height offset in UpdateXrHeadPose compensates.
+            trackingOrigin = TrackingOriginModeFlags.Device;
+        }
     }
 
     /// <summary>

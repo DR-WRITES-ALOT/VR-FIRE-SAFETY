@@ -205,40 +205,73 @@ Single storey, 4 m wide corridors, 3.2 m ceilings, stairs descending 3.5 m:
 
 ---
 
-## 6. Manual configuration still needed for a VR headset
+## 6. Making it run in a VR headset
 
-Desktop play works immediately. To run in a headset, enable XR in the Editor (this is a per-project
-Editor step in every Unity VR project):
+Desktop play works immediately. The scene, the interaction code and the lesson already run in VR —
+there is **no XR rig to build and no XR Interaction Toolkit wiring to do**, because the trainer reads
+the head pose, both thumbsticks and the trigger straight from `UnityEngine.XR`. What is left is the
+Editor-side XR configuration, which every Unity VR project has to do once:
 
-1. **Edit ▸ Project Settings ▸ XR Plug-in Management** → on the **PC** tab (or **Android** for a
-   standalone headset build), tick **OpenXR**. Unity installs the loader and may ask to restart.
-2. **Project Settings ▸ XR Plug-in Management ▸ OpenXR ▸ Features** → enable the feature group for
-   your headset (for Quest: **Meta Quest Support**; for a PC headset: **Microsoft HoloLens** or the
-   vendor feature). If the feature list is empty, press *Fix All* / *Install* when Unity offers it.
-3. **Project Settings ▸ Player ▸ Other Settings ▸ Active Input Handling** must stay **Both**.
-   Setting it to *Input System Package (New)* silences the desktop controls, because the trainer
-   reads the legacy Input Manager. (The project ships with *Both* already selected.)
-4. To test without a headset: **Window ▸ Package Manager ▸ XR Interaction Toolkit ▸ Samples** →
-   import **XR Device Simulator**, then drag the `XR Device Simulator` prefab into the scene and
-   press Play. The trainer reads head pose, thumbsticks and trigger straight from `UnityEngine.XR`,
-   so the simulator drives it with no further wiring.
-5. For a standalone build: **File ▸ Build Settings** → the training scene is already listed →
-   *Build And Run*. If the smoke or flames look wrong in a player (but fine in the Editor), add
-   `Particles/Standard Unlit` to **Project Settings ▸ Graphics ▸ Always Included Shaders** — runtime
-   particle materials fetch their shader by name, and unused shaders are stripped from builds.
+**One-time Editor setup**
 
-The training itself does not depend on which controller model is used: it reads the head pose,
-the left/right thumbsticks and the right trigger through `UnityEngine.XR` (`InputDevices` and
-`CommonUsages`). These APIs are marked *Legacy* in the Unity 6.5 scripting reference but are still
-supported. If a particular OpenXR runtime reports the headset but not the controllers, the trainer
-logs a warning at runtime; the fix is to enable the controller interaction profile for that headset
-in the OpenXR settings, or to swap the input reads in `PlayerController` for XR Interaction Toolkit
-actions (the package is already installed).
+1. **Edit ▸ Project Settings ▸ XR Plug-in Management** → on the **PC** tab (Windows/Mac/Linux) tick
+   **OpenXR**. For a standalone headset also open the **Android** tab and tick **OpenXR** there.
+   Unity may ask to restart.
+2. **Project Settings ▸ XR Plug-in Management ▸ OpenXR ▸ Features** → enable the **interaction
+   profiles** for the controllers you own:
+   * *Oculus Touch Controller Profile* — Quest (Link/Air Link) and Rift
+   * *Valve Index Controller Profile*, *HTC Vive Controller Profile*, *Microsoft Motion Controller
+     Profile* — the matching PC headsets
+   Press **Fix All** if Unity lists warnings. Without a profile the headset still tracks, but the
+   sticks and trigger report nothing (the trainer logs a warning after three seconds).
+3. Leave **Render Mode** on **Single Pass Instanced** (the Unity 6 default; URP supports it).
+4. Leave **Active Input Handling** at **Both** (already set). The desktop controls read the legacy
+   Input Manager.
 
-> The scene does not use XR Interaction Toolkit interactors, because those need a controller rig
-> that could not be verified in this environment. The XR Interaction Toolkit and OpenXR packages are
-> nevertheless included in `Packages/manifest.json` so the project can be extended with grab
-> interactors or teleportation later.
+**Tracking origin — handled in code, nothing to click**
+
+`PlayerController` asks the runtime for a **floor-relative tracking origin** when the session starts
+(`RequestTrackingOrigin`, called again each second until the subsystem is running). That matters
+because the rig root sits on the floor and the camera is its child: with a device-relative origin the
+head pose would put the eyes at floor level. If a runtime offers only a device origin, the script
+adds `vrDeviceOriginEyeHeight` (1.62 m) instead. The value in the scene is 0 if floor tracking was
+confirmed and 1.62 m otherwise, so the player's eye height is correct either way.
+
+**Testing without a headset**
+
+* Just press Play — the desktop branch is fully playable with WASD/mouse/E.
+* To see the stereo path in the Editor, install **Unity Mock HMD**
+  (`Window ▸ Package Manager ▸ + ▸ Add package by name ▸ com.unity.xr.mock-hmd`) and enable it in
+  XR Plug-in Management. It provides stereo rendering but *no input or head pose*, which the trainer
+  now tolerates: it keeps rendering in stereo and falls back to mouse/WASD control, so you can still
+  walk the lesson in a headset-shaped view.
+* The **XR Device Simulator** sample from XR Interaction Toolkit is *not* a drop-in here: it drives
+  its own XR Origin/controller rig, which this project does not use. Use it only if you add XRI
+  interactors and an XR Origin yourself.
+
+**Standalone headset build (Quest-class)**
+
+| Setting | Value in this project | Notes |
+| --- | --- | --- |
+| Platform | Android (switch target) | `File ▸ Build Settings ▸ Android ▸ Switch Platform` |
+| Target architecture | **ARM64** (`AndroidTargetArchitectures: 2`) | required by Quest 2/3 and Pro |
+| Minimum API level | **29** (Android 10) | required by current headset runtimes |
+| Scripting backend | IL2CPP | already set for Android |
+| Bundle identifier | `com.vrfiresafety.trainer` | was a leftover template id (`com.DefaultCompany.brgshooter`) |
+| Texture compression | ASTC | set it in Build Settings before the first Android build |
+| Scene | `Assets/Scenes/FireSafetyTrainer.unity` | already in Build Settings |
+
+Build with **Build And Run** over USB with Developer Mode enabled on the headset. The runtime particle
+shaders are already in **Graphics ▸ Always Included Shaders**, so the smoke and flames survive
+build-time shader stripping.
+
+**If the standalone build is slow** (the URP asset is tuned for a desktop GPU), lower these in
+`Assets/Settings/FireSafetyURP.asset`: `MSAA` 4 → 2, `Main Light Shadowmap` 2048 → 1024,
+`Shadow Distance` 30 → 20. Additional-light shadows are already off.
+
+> Nothing in this section has been executed here: there is no Unity Editor, headset or Android
+> device in this environment. The tracking-origin and head-pose-fallback code is written against the
+> Unity 6.5 scripting reference and is statically verified only.
 
 ---
 
@@ -431,6 +464,9 @@ Key points taken from the sources:
 * Visual layout, lighting balance and particle appearance in the Editor.
 * Actual mouse/keyboard or VR input, audio playback, and the on-screen button interactions.
 * Frame rate, stereo rendering and comfort in a headset.
+* The VR-only code added for headset readiness — the floor tracking-origin request and the
+  head-pose fallback in `PlayerController` — is written against the Unity 6.5 scripting
+  reference and checked statically; it has not been executed on a headset.
 
 Open the scene and use **Tools ▸ VR Fire Safety ▸ Validate Training Scene** first: it re-checks
 every reference, collider and lesson object inside Unity, reports the editor version, the active

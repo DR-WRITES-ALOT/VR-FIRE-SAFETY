@@ -157,6 +157,29 @@ def check_player_settings(problems, notes):
     if not product or not company:
         problems.append("Player Settings are missing the product or company name")
 
+    # ---- standalone headset build settings -------------------------------
+    identifiers = re.findall(r"^    (Android|Standalone):\s*(\S+)$", read("ProjectSettings/ProjectSettings.asset"),
+                             re.MULTILINE)
+    bundle = dict(identifiers)
+    if bundle.get("Android", "").startswith("com.DefaultCompany"):
+        problems.append("Android bundle identifier is still the template value (%s)"
+                        % bundle.get("Android"))
+    if bundle.get("Standalone", "").startswith("com.DefaultCompany"):
+        problems.append("Standalone bundle identifier is still the template value (%s)"
+                        % bundle.get("Standalone"))
+
+    architectures = value(r"^  AndroidTargetArchitectures:\s*(\d+)$", "AndroidTargetArchitectures")
+    if architectures is not None:
+        # bit 1 = ARMv7, bit 2 = ARM64; every current standalone headset is ARM64-only.
+        if not (int(architectures) & 2):
+            problems.append("AndroidTargetArchitectures is %s: a standalone headset build needs "
+                            "ARM64 enabled" % architectures)
+
+    min_sdk = value(r"^  AndroidMinSdkVersion:\s*(\d+)$", "AndroidMinSdkVersion")
+    if min_sdk is not None and int(min_sdk) < 29:
+        notes.append("AndroidMinSdkVersion is %s; Quest-class headsets need API 29 or newer "
+                     "(this project ships 29)" % min_sdk)
+
     width = value(r"^  defaultScreenWidth:\s*(\d+)$", "defaultScreenWidth")
     height = value(r"^  defaultScreenHeight:\s*(\d+)$", "defaultScreenHeight")
     if width and height and (int(width) < 1280 or int(height) < 720):
