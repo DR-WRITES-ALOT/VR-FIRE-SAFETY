@@ -276,8 +276,12 @@ controllers the runtime reports. It reads state only and never changes the lesso
 * To see the stereo path in the Editor, install **Unity Mock HMD**
   (`Window ▸ Package Manager ▸ + ▸ Add package by name ▸ com.unity.xr.mock-hmd`) and enable it in
   XR Plug-in Management. It provides stereo rendering but *no input or head pose*, which the trainer
-  now tolerates: it keeps rendering in stereo and falls back to mouse/WASD control, so you can still
+  tolerates: it keeps rendering in stereo and falls back to mouse/WASD control, so you can still
   walk the lesson in a headset-shaped view.
+  The **Both Eyes** control only exists while an XR session is running; it is a separate popup in
+  the Game view toolbar (labelled *Left Eye* / *Both Eyes* / …), **not** the `Game ▾` view list on
+  the far left. `VrReadinessPanel` now selects it automatically on the first XR frame, so pressing
+  Play is normally enough.
 * The **XR Device Simulator** sample from XR Interaction Toolkit is *not* a drop-in here: it drives
   its own XR Origin/controller rig, which this project does not use. Use it only if you add XRI
   interactors and an XR Origin yourself.
