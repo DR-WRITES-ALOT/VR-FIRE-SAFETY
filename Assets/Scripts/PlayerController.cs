@@ -74,6 +74,14 @@ public class PlayerController : MonoBehaviour
     public bool HasFloorTrackingOrigin => trackingOrigin == TrackingOriginModeFlags.Floor;
 
     /// <summary>
+    /// True when the keyboard and mouse should drive the player: either there is no headset at
+    /// all, or an XR session is running that reports no head pose (the Mock HMD stereo runtime,
+    /// or a runtime whose headset is not being tracked). Stereo rendering still happens in that
+    /// case, so the mouse is used for looking and the cursor is released for panels as usual.
+    /// </summary>
+    public bool UsesDesktopInput => !xrActive || !xrHeadTracked;
+
+    /// <summary>
     /// True when the crosshair should act as a pointer for interface buttons.
     /// Desktop: only while the cursor is locked (i.e. no panel is open, so real mouse clicks work).
     /// VR: always, because the headset has no mouse and the trigger is the pointer.
@@ -142,7 +150,7 @@ public class PlayerController : MonoBehaviour
         if (uiFocus && !OverlayIsOpen())
         {
             uiFocus = false;
-            if (!xrActive) LockCursor(true);
+            if (UsesDesktopInput) LockCursor(true);
         }
 
         if (xrActive)
@@ -414,7 +422,9 @@ public class PlayerController : MonoBehaviour
     {
         uiFocus = focus;
         SetFocus(null);
-        if (xrActive) return;
+        // In a real headset the cursor is meaningless and the trigger presses the buttons.
+        // In a stereo-but-untracked session the mouse is still needed, so keep releasing it.
+        if (xrActive && xrHeadTracked) return;
         LockCursor(!focus);
     }
 
@@ -422,7 +432,7 @@ public class PlayerController : MonoBehaviour
     public void ReleaseUiFocus()
     {
         uiFocus = false;
-        if (!xrActive) LockCursor(true);
+        if (UsesDesktopInput) LockCursor(true);
     }
 
     public void LockCursor(bool locked)

@@ -8,6 +8,28 @@ Run the steps in order; steps 1–2 take about five minutes.
 
 ---
 
+## Run sheet for a 10-minute demo
+
+| Time | Do | They see |
+| --- | --- | --- |
+| 0:00 | Open the project, open `Assets/Scenes/FireSafetyTrainer.unity`, maximise the **Game** tab, press **Play** | the ordinary Unity Game tab: the main menu, then the corridor. Say: "this is the desktop branch — the same lesson code that runs in VR" |
+| 0:00–3:00 | Play through section A and B (click **Start Training**, `E` at the alarm, `E` at the phone, `E` at the mask case, walk to the fire) | the teaching pop-ups, the objective box, the alarm, the animated PASS demo |
+| 3:00 | Stop. Show **Tools ▸ VR Fire Safety ▸ VR Readiness Report** | a Markdown report written from the live project, with a verdict |
+| 4:00 | *Package Manager ▸ + ▸ Add package by name… `com.unity.xr.mock-hmd`*; tick **Mock HMD** in XR Plug-in Management (PC tab) | the project will now run in an XR session |
+| 5:00 | Press **Play**, then set the Game view render mode dropdown (top-left of the Game view) to **Both Eyes** | **the scene twice, side by side** — the same stereo image a headset receives |
+| 6:00 | Press **F2** | `XR session ....... ACTIVE`, `Stereo mode ...... SinglePassInstanced`, `Head pose ... not reported` (honest: Mock HMD provides no tracking) |
+| 7:00 | Stop. Untick **Mock HMD**; tick **OpenXR** on the PC tab and add your controller profile | the headset configuration screen |
+| 8:00 | Show **Player ▸ Other Settings** | Active Input Handling = Both, IL2CPP, ARM64, Minimum API 29 |
+| 9:00 | Say the one-sentence summary from the end of this document | — |
+
+Mouse and keyboard keep working in the Mock HMD session: the trainer detects that the runtime
+reports no head pose and keeps WASD/mouse look, while the UI switches to world space so it renders
+in both eyes. That combination is the demo.
+
+
+
+---
+
 ## Step 1 — Generate the machine-written report
 
 **Tools ▸ VR Fire Safety ▸ VR Readiness Report**
