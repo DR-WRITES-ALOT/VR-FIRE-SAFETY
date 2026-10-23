@@ -995,6 +995,39 @@ text(s, 7.3, 5.75, 5.05, 0.55,
 notes(s, "Close with the run instructions and an honest test statement. The deck does not claim "
          "any VR run was performed.")
 
+# ------------------------------------------------------------------ 19 ------
+s = slide()
+header(s, "VR readiness", "Proving the headset path without a headset", 19)
+
+items = [
+    ("1", "Machine-written report", "Tools ▸ VR Fire Safety ▸ VR Readiness Report\nwrites docs/VR-Readiness-Report.md from the live project state"),
+    ("2", "Stereo in the Editor", "Mock HMD + Game view ▸ Both Eyes\nthe scene rendered twice, once per eye"),
+    ("3", "Live XR state", "Press F2 in Play mode\nsession ACTIVE, stereo mode, tracking origin, controllers"),
+    ("4", "Settings screens", "OpenXR ticked · interaction profile listed\nSingle Pass Instanced · IL2CPP · ARM64 · API 29"),
+    ("5", "Build proof", "Android ▸ Build (no device attached)\nXR, IL2CPP, ARM64 and shaders all compile"),
+    ("6", "Honest wording", "\"Configuration-verified and exercised with\nthe Mock HMD runtime; not yet on hardware\""),
+]
+for i, (num, title_, desc) in enumerate(items):
+    col = i % 3
+    row = i // 3
+    x = 0.7 + col * 4.09
+    y = 1.95 + row * 1.72
+    panel(s, x, y, 3.85, 1.5, stripe=AMBER if row == 0 else GREEN)
+    text(s, x + 0.2, y + 0.13, 0.5, 0.4, num, size=19, colour=AMBER if row == 0 else GREEN,
+         bold=True)
+    text(s, x + 0.66, y + 0.17, 3.0, 0.32, title_, size=12.5, colour=TEXT, bold=True)
+    text(s, x + 0.2, y + 0.62, 3.5, 0.8, desc, size=9.5, colour=MUTED, line=1.2)
+
+panel(s, 0.7, 5.55, 11.95, 1.15, fill=RGBColor(0x2A, 0x1B, 0x14), line_colour=RED)
+text(s, 0.95, 5.66, 11.4, 0.35, "SAY THIS, NOT MORE", size=10.5, colour=RED, bold=True)
+text(s, 0.95, 5.95, 11.4, 0.65,
+     "The VR path is implemented and configuration-verified, and was exercised in the Editor with the "
+     "Mock HMD stereo runtime. It has not been run on a physical headset, and performance on device "
+     "has not been measured.", size=11, colour=MUTED, line=1.2)
+notes(s, "Six artefacts, five of which can be produced in a few minutes without hardware. The sixth "
+         "is the wording: stating exactly what was and was not tested is what makes the rest credible. "
+         "Full walkthrough: docs/VR-Readiness-Evidence.md.")
+
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 prs.save(OUT)
 print("Wrote", OUT, "with", len(prs.slides), "slides")

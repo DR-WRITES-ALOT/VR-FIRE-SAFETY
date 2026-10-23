@@ -1014,6 +1014,14 @@ def build_player(b):
         "  snapTurnDegrees: 30",
         "  driveCameraFromXrDevice: 1",
     ])
+    # Runtime XR diagnostics overlay (F2 in Play mode). Lives on the player so it can report
+    # the live XR session, tracking origin and controllers without a headset.
+    player.mono("VrReadinessPanel", [
+        "  showOnStart: 0",
+        "  panelWidth: 560",
+        "  fontSize: 15",
+    ])
+
     refs["start"] = start
     refs["player"] = player
     refs["player_script"] = player_script

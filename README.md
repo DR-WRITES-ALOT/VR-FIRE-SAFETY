@@ -259,6 +259,17 @@ head pose would put the eyes at floor level. If a runtime offers only a device o
 adds `vrDeviceOriginEyeHeight` (1.62 m, serialized on the `Player` object) instead, so the player's
 eye height is correct either way. Nothing needs to be set for this.
 
+**Evidencing VR readiness without a headset** — for a report, demo or viva, see
+[`docs/VR-Readiness-Evidence.md`](docs/VR-Readiness-Evidence.md). It walks through the six artefacts
+that prove the VR path without hardware: the machine-written `VR Readiness Report` (Tools ▸ VR Fire
+Safety), a **Mock HMD** screenshot of the Game view in *Both Eyes* mode, the in-game **F2** XR
+diagnostics panel, the three relevant settings screens, a successful Android build, and the exact
+wording to use when describing what has and has not been tested.
+
+**Runtime XR diagnostics** — the `Player` object carries `VrReadinessPanel`. Press **F2** in Play
+mode to see the live XR session state, stereo mode, tracking origin, and which headset and
+controllers the runtime reports. It reads state only and never changes the lesson.
+
 **Testing without a headset**
 
 * Just press Play — the desktop branch is fully playable with WASD/mouse/E.

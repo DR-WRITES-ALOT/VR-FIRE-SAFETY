@@ -205,6 +205,11 @@ Toolkit wiring to build, because the trainer reads head pose, thumbsticks and tr
 `Tools ▸ VR Fire Safety ▸ Project Setup Report` prints the loader state and the enabled interaction
 profiles, so the two settings that decide whether a headset works can be checked in one line.
 
+**Evidencing VR readiness without a headset:** see `docs/VR-Readiness-Evidence.md` — the generated
+`VR Readiness Report` menu item, a Mock HMD stereo screenshot, the in-game **F2** diagnostics panel,
+the settings screenshots, an Android build, and the wording to use when describing what has not been
+tested on hardware.
+
 **Tracking origin** is handled in code: `PlayerController.RequestTrackingOrigin()` asks for a
 floor-relative origin (retried each second until the input subsystem is running), and falls back to a
 1.62 m eye-height offset if the runtime only offers a device-relative origin. Without it the head

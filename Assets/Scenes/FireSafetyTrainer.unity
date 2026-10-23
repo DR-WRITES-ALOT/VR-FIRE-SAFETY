@@ -313,8 +313,8 @@ Transform:
   - {fileID: 101015}
   - {fileID: 101017}
   - {fileID: 101034}
-  - {fileID: 101104}
-  - {fileID: 101121}
+  - {fileID: 101105}
+  - {fileID: 101122}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15154,7 +15154,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 100695}
-  - component: {fileID: 101089}
+  - component: {fileID: 101090}
   m_Layer: 0
   m_Name: AlarmCallPoint
   m_TagString: Untagged
@@ -15183,7 +15183,7 @@ Transform:
   m_Father: {fileID: 100002}
   m_RootOrder: 147
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &101089
+--- !u!114 &101090
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15683,7 +15683,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 100720}
-  - component: {fileID: 101090}
+  - component: {fileID: 101091}
   m_Layer: 0
   m_Name: EmergencyPhone
   m_TagString: Untagged
@@ -15711,7 +15711,7 @@ Transform:
   m_Father: {fileID: 100002}
   m_RootOrder: 148
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &101090
+--- !u!114 &101091
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -16125,7 +16125,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 100741}
-  - component: {fileID: 101091}
+  - component: {fileID: 101092}
   m_Layer: 0
   m_Name: MaskDisplay
   m_TagString: Untagged
@@ -16154,7 +16154,7 @@ Transform:
   m_Father: {fileID: 100002}
   m_RootOrder: 149
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &101091
+--- !u!114 &101092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17104,7 +17104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 100788}
   - component: {fileID: 100789}
-  - component: {fileID: 101092}
+  - component: {fileID: 101093}
   m_Layer: 0
   m_Name: Card_Water
   m_TagString: Untagged
@@ -17148,7 +17148,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.55, y: 0.95, z: 0.45}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &101092
+--- !u!114 &101093
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17630,7 +17630,7 @@ GameObject:
   m_Component:
   - component: {fileID: 100813}
   - component: {fileID: 100814}
-  - component: {fileID: 101093}
+  - component: {fileID: 101094}
   m_Layer: 0
   m_Name: Card_Foam
   m_TagString: Untagged
@@ -17674,7 +17674,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.55, y: 0.95, z: 0.45}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &101093
+--- !u!114 &101094
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -18156,7 +18156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 100838}
   - component: {fileID: 100839}
-  - component: {fileID: 101094}
+  - component: {fileID: 101095}
   m_Layer: 0
   m_Name: Card_ABC_Powder
   m_TagString: Untagged
@@ -18200,7 +18200,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.55, y: 0.95, z: 0.45}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &101094
+--- !u!114 &101095
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -18682,7 +18682,7 @@ GameObject:
   m_Component:
   - component: {fileID: 100863}
   - component: {fileID: 100864}
-  - component: {fileID: 101095}
+  - component: {fileID: 101096}
   m_Layer: 0
   m_Name: Card_CO2
   m_TagString: Untagged
@@ -18726,7 +18726,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.55, y: 0.95, z: 0.45}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &101095
+--- !u!114 &101096
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19208,7 +19208,7 @@ GameObject:
   m_Component:
   - component: {fileID: 100888}
   - component: {fileID: 100889}
-  - component: {fileID: 101096}
+  - component: {fileID: 101097}
   m_Layer: 0
   m_Name: Card_Wet_Chemical
   m_TagString: Untagged
@@ -19252,7 +19252,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.55, y: 0.95, z: 0.45}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &101096
+--- !u!114 &101097
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19734,7 +19734,7 @@ GameObject:
   m_Component:
   - component: {fileID: 100913}
   - component: {fileID: 100914}
-  - component: {fileID: 101097}
+  - component: {fileID: 101098}
   m_Layer: 0
   m_Name: Card_Class_D
   m_TagString: Untagged
@@ -19778,7 +19778,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.55, y: 0.95, z: 0.45}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &101097
+--- !u!114 &101098
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19807,7 +19807,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 100916}
-  - component: {fileID: 101098}
+  - component: {fileID: 101099}
   m_Layer: 0
   m_Name: ContainedFireDemo
   m_TagString: Untagged
@@ -19836,7 +19836,7 @@ Transform:
   m_Father: {fileID: 100002}
   m_RootOrder: 156
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &101098
+--- !u!114 &101099
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20305,7 +20305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 100939}
   - component: {fileID: 100940}
-  - component: {fileID: 101099}
+  - component: {fileID: 101100}
   m_Layer: 0
   m_Name: FireViewPoint
   m_TagString: Untagged
@@ -20349,7 +20349,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &101099
+--- !u!114 &101100
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20378,7 +20378,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 100942}
-  - component: {fileID: 101100}
+  - component: {fileID: 101101}
   m_Layer: 0
   m_Name: ExtinguisherStation
   m_TagString: Untagged
@@ -20406,7 +20406,7 @@ Transform:
   m_Father: {fileID: 100002}
   m_RootOrder: 157
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &101100
+--- !u!114 &101101
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20422,7 +20422,7 @@ MonoBehaviour:
   available: 1
   pulseOnHover: 1
   hoverScale: 1.03
-  fire: {fileID: 101098}
+  fire: {fileID: 101099}
   head: {fileID: 100974}
   lever: {fileID: 100984}
   pin: {fileID: 100990}
@@ -21828,7 +21828,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101013}
-  - component: {fileID: 101135}
+  - component: {fileID: 101136}
   m_Layer: 0
   m_Name: CorridorSmokeHazard
   m_TagString: Untagged
@@ -21851,7 +21851,7 @@ Transform:
   m_Father: {fileID: 100002}
   m_RootOrder: 158
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &101135
+--- !u!114 &101136
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -21907,7 +21907,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101017}
-  - component: {fileID: 101101}
+  - component: {fileID: 101102}
   m_Layer: 0
   m_Name: StoreRoomFireDoor
   m_TagString: Untagged
@@ -21931,7 +21931,7 @@ Transform:
   m_Father: {fileID: 100002}
   m_RootOrder: 160
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &101101
+--- !u!114 &101102
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22275,7 +22275,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101034}
-  - component: {fileID: 101102}
+  - component: {fileID: 101103}
   m_Layer: 0
   m_Name: ExitDoors
   m_TagString: Untagged
@@ -22299,7 +22299,7 @@ Transform:
   m_Father: {fileID: 100002}
   m_RootOrder: 161
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &101102
+--- !u!114 &101103
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22950,6 +22950,7 @@ GameObject:
   - component: {fileID: 101066}
   - component: {fileID: 101067}
   - component: {fileID: 101073}
+  - component: {fileID: 101074}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -23025,6 +23026,21 @@ MonoBehaviour:
   vrMoveSpeed: 2
   snapTurnDegrees: 30
   driveCameraFromXrDevice: 1
+--- !u!114 &101074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2db7be9e020751e9fa397518ea4a4b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showOnStart: 0
+  panelWidth: 560
+  fontSize: 15
 --- !u!1 &101068
 GameObject:
   m_ObjectHideFlags: 0
@@ -23143,7 +23159,7 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 101068}
   m_Enabled: 1
---- !u!1 &101074
+--- !u!1 &101075
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23151,12 +23167,12 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101075}
   - component: {fileID: 101076}
   - component: {fileID: 101077}
   - component: {fileID: 101078}
   - component: {fileID: 101079}
   - component: {fileID: 101080}
+  - component: {fileID: 101081}
   m_Layer: 5
   m_Name: TrainingUI
   m_TagString: Untagged
@@ -23164,13 +23180,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &101075
+--- !u!224 &101076
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101074}
+  m_GameObject: {fileID: 101075}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.6, z: 2.3}
   m_LocalScale: {x: 0.00115, y: 0.00115, z: 0.00115}
@@ -23184,13 +23200,13 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1600, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!223 &101076
+--- !u!223 &101077
 Canvas:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101074}
+  m_GameObject: {fileID: 101075}
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
@@ -23207,13 +23223,13 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &101077
+--- !u!114 &101078
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101074}
+  m_GameObject: {fileID: 101075}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
@@ -23230,13 +23246,13 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 1
---- !u!114 &101078
+--- !u!114 &101079
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101074}
+  m_GameObject: {fileID: 101075}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
@@ -23247,13 +23263,13 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &101079
+--- !u!114 &101080
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101074}
+  m_GameObject: {fileID: 101075}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1162dc1bf30ab2692b9d4d9ca905eeb3, type: 3}
@@ -23265,13 +23281,13 @@ MonoBehaviour:
   accentColour: {r: 1, g: 0.72, b: 0.25, a: 1}
   bodyColour: {r: 0.93, g: 0.94, b: 0.96, a: 1}
   dangerColour: {r: 0.72, g: 0.13, b: 0.1, a: 0.96}
---- !u!114 &101080
+--- !u!114 &101081
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101074}
+  m_GameObject: {fileID: 101075}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3955cbdef3df4a15c076ff7d4dce8c76, type: 3}
@@ -23290,7 +23306,7 @@ MonoBehaviour:
   designSize: {x: 1600, y: 900}
   fill: 0.98
   sourceCamera: {fileID: 101070}
---- !u!1 &101081
+--- !u!1 &101082
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23298,9 +23314,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101082}
   - component: {fileID: 101083}
   - component: {fileID: 101084}
+  - component: {fileID: 101085}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -23308,13 +23324,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101082
+--- !u!4 &101083
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101081}
+  m_GameObject: {fileID: 101082}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -23323,13 +23339,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &101083
+--- !u!114 &101084
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101081}
+  m_GameObject: {fileID: 101082}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
@@ -23338,13 +23354,13 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
---- !u!114 &101084
+--- !u!114 &101085
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101081}
+  m_GameObject: {fileID: 101082}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
@@ -23357,7 +23373,7 @@ MonoBehaviour:
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
---- !u!1 &101085
+--- !u!1 &101086
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23365,9 +23381,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101086}
   - component: {fileID: 101087}
   - component: {fileID: 101088}
+  - component: {fileID: 101089}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -23375,13 +23391,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101086
+--- !u!4 &101087
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101085}
+  m_GameObject: {fileID: 101086}
   m_LocalRotation: {x: 0.418082, y: 0.270273, z: -0.131821, w: 0.857195}
   m_LocalPosition: {x: 0, y: 24, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -23390,13 +23406,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 52, y: 35, z: 0}
---- !u!108 &101087
+--- !u!108 &101088
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101085}
+  m_GameObject: {fileID: 101086}
   m_Enabled: 1
   serializedVersion: 10
   m_Type: 1
@@ -23452,13 +23468,13 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &101088
+--- !u!114 &101089
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101085}
+  m_GameObject: {fileID: 101086}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
@@ -23470,7 +23486,7 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!1 &101103
+--- !u!1 &101104
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23478,8 +23494,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101104}
-  - component: {fileID: 101134}
+  - component: {fileID: 101105}
+  - component: {fileID: 101135}
   m_Layer: 0
   m_Name: LiftCallButton
   m_TagString: Untagged
@@ -23487,32 +23503,32 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101104
+--- !u!4 &101105
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101103}
+  m_GameObject: {fileID: 101104}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.91, y: 1.25, z: 18.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 101106}
-  - {fileID: 101110}
-  - {fileID: 101114}
-  - {fileID: 101118}
+  - {fileID: 101107}
+  - {fileID: 101111}
+  - {fileID: 101115}
+  - {fileID: 101119}
   m_Father: {fileID: 100002}
   m_RootOrder: 162
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &101134
+--- !u!114 &101135
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101103}
+  m_GameObject: {fileID: 101104}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26eacef8b72d3a4c6a3969733231bc53, type: 3}
@@ -23526,7 +23542,7 @@ MonoBehaviour:
   unavailablePrompt: Lift call button
   audioSource: {fileID: 0}
   interactClip: {fileID: 8300000, guid: e62773fb9bbeb8bc3ad6e9723ea8efad, type: 3}
---- !u!1 &101105
+--- !u!1 &101106
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23534,9 +23550,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101106}
   - component: {fileID: 101107}
   - component: {fileID: 101108}
+  - component: {fileID: 101109}
   m_Layer: 0
   m_Name: Lift_Panel
   m_TagString: Untagged
@@ -23544,36 +23560,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101106
+--- !u!4 &101107
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101105}
+  m_GameObject: {fileID: 101106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.06, y: 0.3, z: 0.22}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 101104}
+  m_Father: {fileID: 101105}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &101107
+--- !u!33 &101108
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101105}
+  m_GameObject: {fileID: 101106}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &101108
+--- !u!23 &101109
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101105}
+  m_GameObject: {fileID: 101106}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -23609,7 +23625,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &101109
+--- !u!1 &101110
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23617,9 +23633,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101110}
   - component: {fileID: 101111}
   - component: {fileID: 101112}
+  - component: {fileID: 101113}
   m_Layer: 0
   m_Name: Lift_ButtonUp
   m_TagString: Untagged
@@ -23627,36 +23643,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101110
+--- !u!4 &101111
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101109}
+  m_GameObject: {fileID: 101110}
   m_LocalRotation: {x: 0, y: 0, z: 0.707107, w: 0.707107}
   m_LocalPosition: {x: -0.045, y: 0.05, z: 0}
   m_LocalScale: {x: 0.05, y: 0.02, z: 0.05}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 101104}
+  m_Father: {fileID: 101105}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
---- !u!33 &101111
+--- !u!33 &101112
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101109}
+  m_GameObject: {fileID: 101110}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &101112
+--- !u!23 &101113
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101109}
+  m_GameObject: {fileID: 101110}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -23692,7 +23708,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &101113
+--- !u!1 &101114
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23700,9 +23716,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101114}
   - component: {fileID: 101115}
   - component: {fileID: 101116}
+  - component: {fileID: 101117}
   m_Layer: 0
   m_Name: Lift_ButtonDown
   m_TagString: Untagged
@@ -23710,36 +23726,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101114
+--- !u!4 &101115
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101113}
+  m_GameObject: {fileID: 101114}
   m_LocalRotation: {x: 0, y: 0, z: 0.707107, w: 0.707107}
   m_LocalPosition: {x: -0.045, y: -0.05, z: 0}
   m_LocalScale: {x: 0.05, y: 0.02, z: 0.05}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 101104}
+  m_Father: {fileID: 101105}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
---- !u!33 &101115
+--- !u!33 &101116
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101113}
+  m_GameObject: {fileID: 101114}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &101116
+--- !u!23 &101117
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101113}
+  m_GameObject: {fileID: 101114}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -23775,7 +23791,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &101117
+--- !u!1 &101118
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23783,8 +23799,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101118}
   - component: {fileID: 101119}
+  - component: {fileID: 101120}
   m_Layer: 0
   m_Name: LiftInteractBox
   m_TagString: Untagged
@@ -23792,28 +23808,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101118
+--- !u!4 &101119
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101117}
+  m_GameObject: {fileID: 101118}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 101104}
+  m_Father: {fileID: 101105}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &101119
+--- !u!65 &101120
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101117}
+  m_GameObject: {fileID: 101118}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -23828,7 +23844,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3, y: 0.5, z: 0.4}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &101120
+--- !u!1 &101121
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23836,7 +23852,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101121}
+  - component: {fileID: 101122}
   m_Layer: 0
   m_Name: LiftDoors
   m_TagString: Untagged
@@ -23844,25 +23860,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101121
+--- !u!4 &101122
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101120}
+  m_GameObject: {fileID: 101121}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.94, y: 1.15, z: 19.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 101123}
-  - {fileID: 101127}
-  - {fileID: 101131}
+  - {fileID: 101124}
+  - {fileID: 101128}
+  - {fileID: 101132}
   m_Father: {fileID: 100002}
   m_RootOrder: 163
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &101122
+--- !u!1 &101123
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23870,9 +23886,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101123}
   - component: {fileID: 101124}
   - component: {fileID: 101125}
+  - component: {fileID: 101126}
   m_Layer: 0
   m_Name: Lift_DoorA
   m_TagString: Untagged
@@ -23880,36 +23896,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101123
+--- !u!4 &101124
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101122}
+  m_GameObject: {fileID: 101123}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.55}
   m_LocalScale: {x: 0.06, y: 2.3, z: 1.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 101121}
+  m_Father: {fileID: 101122}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &101124
+--- !u!33 &101125
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101122}
+  m_GameObject: {fileID: 101123}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &101125
+--- !u!23 &101126
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101122}
+  m_GameObject: {fileID: 101123}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -23945,7 +23961,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &101126
+--- !u!1 &101127
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23953,9 +23969,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101127}
   - component: {fileID: 101128}
   - component: {fileID: 101129}
+  - component: {fileID: 101130}
   m_Layer: 0
   m_Name: Lift_DoorB
   m_TagString: Untagged
@@ -23963,36 +23979,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101127
+--- !u!4 &101128
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101126}
+  m_GameObject: {fileID: 101127}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.55}
   m_LocalScale: {x: 0.06, y: 2.3, z: 1.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 101121}
+  m_Father: {fileID: 101122}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &101128
+--- !u!33 &101129
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101126}
+  m_GameObject: {fileID: 101127}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &101129
+--- !u!23 &101130
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101126}
+  m_GameObject: {fileID: 101127}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -24028,7 +24044,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &101130
+--- !u!1 &101131
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24036,9 +24052,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101131}
   - component: {fileID: 101132}
   - component: {fileID: 101133}
+  - component: {fileID: 101134}
   m_Layer: 0
   m_Name: Lift_FrameTop
   m_TagString: Untagged
@@ -24046,36 +24062,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101131
+--- !u!4 &101132
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101130}
+  m_GameObject: {fileID: 101131}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.2, z: 0}
   m_LocalScale: {x: 0.1, y: 0.14, z: 2.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 101121}
+  m_Father: {fileID: 101122}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &101132
+--- !u!33 &101133
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101130}
+  m_GameObject: {fileID: 101131}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &101133
+--- !u!23 &101134
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101130}
+  m_GameObject: {fileID: 101131}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -24111,7 +24127,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &101136
+--- !u!1 &101137
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24119,7 +24135,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101137}
+  - component: {fileID: 101138}
   m_Layer: 0
   m_Name: Checkpoints
   m_TagString: Untagged
@@ -24127,27 +24143,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101137
+--- !u!4 &101138
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101136}
+  m_GameObject: {fileID: 101137}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 101139}
-  - {fileID: 101142}
-  - {fileID: 101145}
-  - {fileID: 101148}
-  - {fileID: 101151}
+  - {fileID: 101140}
+  - {fileID: 101143}
+  - {fileID: 101146}
+  - {fileID: 101149}
+  - {fileID: 101152}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &101138
+--- !u!1 &101139
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24155,9 +24171,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101139}
   - component: {fileID: 101140}
-  - component: {fileID: 101153}
+  - component: {fileID: 101141}
+  - component: {fileID: 101154}
   m_Layer: 0
   m_Name: checkpoint_lobby
   m_TagString: Untagged
@@ -24165,28 +24181,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101139
+--- !u!4 &101140
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101138}
+  m_GameObject: {fileID: 101139}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 19.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 101137}
+  m_Father: {fileID: 101138}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &101140
+--- !u!65 &101141
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101138}
+  m_GameObject: {fileID: 101139}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -24201,13 +24217,13 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.8, y: 2.2, z: 1.2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &101153
+--- !u!114 &101154
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101138}
+  m_GameObject: {fileID: 101139}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 649ca64871af761d559d0c79c199e899, type: 3}
@@ -24215,7 +24231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkpointId: checkpoint_lobby
   playerOnly: 1
---- !u!1 &101141
+--- !u!1 &101142
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24223,9 +24239,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101142}
   - component: {fileID: 101143}
-  - component: {fileID: 101154}
+  - component: {fileID: 101144}
+  - component: {fileID: 101155}
   m_Layer: 0
   m_Name: checkpoint_stairs_bottom
   m_TagString: Untagged
@@ -24233,28 +24249,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101142
+--- !u!4 &101143
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101141}
+  m_GameObject: {fileID: 101142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -2.5, z: 27.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 101137}
+  m_Father: {fileID: 101138}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &101143
+--- !u!65 &101144
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101141}
+  m_GameObject: {fileID: 101142}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -24269,13 +24285,13 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 2.2, z: 1.2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &101154
+--- !u!114 &101155
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101141}
+  m_GameObject: {fileID: 101142}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 649ca64871af761d559d0c79c199e899, type: 3}
@@ -24283,7 +24299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkpointId: checkpoint_stairs_bottom
   playerOnly: 1
---- !u!1 &101144
+--- !u!1 &101145
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24291,9 +24307,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101145}
   - component: {fileID: 101146}
-  - component: {fileID: 101155}
+  - component: {fileID: 101147}
+  - component: {fileID: 101156}
   m_Layer: 0
   m_Name: checkpoint_corridor2
   m_TagString: Untagged
@@ -24301,96 +24317,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101145
+--- !u!4 &101146
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101144}
+  m_GameObject: {fileID: 101145}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -2.5, z: 31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 101137}
+  m_Father: {fileID: 101138}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &101146
+--- !u!65 &101147
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101144}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 3.8, y: 2.2, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &101155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 649ca64871af761d559d0c79c199e899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  checkpointId: checkpoint_corridor2
-  playerOnly: 1
---- !u!1 &101147
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 101148}
-  - component: {fileID: 101149}
-  - component: {fileID: 101156}
-  m_Layer: 0
-  m_Name: checkpoint_smoke_approach
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &101148
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101147}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5, z: 33.6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 101137}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &101149
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101147}
+  m_GameObject: {fileID: 101145}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -24411,15 +24359,15 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101147}
+  m_GameObject: {fileID: 101145}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 649ca64871af761d559d0c79c199e899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkpointId: checkpoint_smoke_approach
+  checkpointId: checkpoint_corridor2
   playerOnly: 1
---- !u!1 &101150
+--- !u!1 &101148
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24427,9 +24375,77 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101151}
-  - component: {fileID: 101152}
+  - component: {fileID: 101149}
+  - component: {fileID: 101150}
   - component: {fileID: 101157}
+  m_Layer: 0
+  m_Name: checkpoint_smoke_approach
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &101149
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101148}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -2.5, z: 33.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 101138}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &101150
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101148}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.8, y: 2.2, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &101157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 649ca64871af761d559d0c79c199e899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkpointId: checkpoint_smoke_approach
+  playerOnly: 1
+--- !u!1 &101151
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 101152}
+  - component: {fileID: 101153}
+  - component: {fileID: 101158}
   m_Layer: 0
   m_Name: checkpoint_assembly
   m_TagString: Untagged
@@ -24437,28 +24453,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101151
+--- !u!4 &101152
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101150}
+  m_GameObject: {fileID: 101151}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -2.5, z: 50.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 101137}
+  m_Father: {fileID: 101138}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &101152
+--- !u!65 &101153
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101150}
+  m_GameObject: {fileID: 101151}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -24473,13 +24489,13 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4, y: 2.2, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &101157
+--- !u!114 &101158
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101150}
+  m_GameObject: {fileID: 101151}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 649ca64871af761d559d0c79c199e899, type: 3}
@@ -24487,7 +24503,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkpointId: checkpoint_assembly
   playerOnly: 1
---- !u!1 &101158
+--- !u!1 &101159
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24495,8 +24511,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101159}
   - component: {fileID: 101160}
+  - component: {fileID: 101161}
   m_Layer: 0
   m_Name: EvacuationController
   m_TagString: Untagged
@@ -24504,13 +24520,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101159
+--- !u!4 &101160
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101158}
+  m_GameObject: {fileID: 101159}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -24519,13 +24535,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &101160
+--- !u!114 &101161
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101158}
+  m_GameObject: {fileID: 101159}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 478503953eab037d92b1f4d9442d8e95, type: 3}
@@ -24534,28 +24550,28 @@ MonoBehaviour:
   checkpoints:
   - id: checkpoint_lobby
     displayName: Stair lobby
-    trigger: {fileID: 101153}
+    trigger: {fileID: 101154}
     reached: 0
   - id: checkpoint_stairs_bottom
     displayName: Bottom of the stairs
-    trigger: {fileID: 101154}
+    trigger: {fileID: 101155}
     reached: 0
   - id: checkpoint_corridor2
     displayName: Second corridor
-    trigger: {fileID: 101155}
+    trigger: {fileID: 101156}
     reached: 0
   - id: checkpoint_smoke_approach
     displayName: Smoke ahead
-    trigger: {fileID: 101156}
+    trigger: {fileID: 101157}
     reached: 0
   - id: checkpoint_assembly
     displayName: Assembly point
-    trigger: {fileID: 101157}
+    trigger: {fileID: 101158}
     reached: 0
-  corridorSmoke: {fileID: 101135}
+  corridorSmoke: {fileID: 101136}
   audioSource: {fileID: 0}
   checkpointClip: {fileID: 8300000, guid: e62773fb9bbeb8bc3ad6e9723ea8efad, type: 3}
---- !u!1 &101161
+--- !u!1 &101162
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24563,8 +24579,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 101162}
   - component: {fileID: 101163}
+  - component: {fileID: 101164}
   m_Layer: 0
   m_Name: LessonManager
   m_TagString: Untagged
@@ -24572,13 +24588,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &101162
+--- !u!4 &101163
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101161}
+  m_GameObject: {fileID: 101162}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -24587,37 +24603,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &101163
+--- !u!114 &101164
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101161}
+  m_GameObject: {fileID: 101162}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11c146e4a4efc2e6f0cd4e5be0be2216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 101073}
-  alarm: {fileID: 101089}
-  evacuation: {fileID: 101160}
-  extinguisherStation: {fileID: 101100}
-  fire: {fileID: 101098}
-  phone: {fileID: 101090}
-  maskDisplay: {fileID: 101091}
-  liftCall: {fileID: 101134}
-  fireViewPoint: {fileID: 101099}
-  storeDoor: {fileID: 101101}
-  exitDoor: {fileID: 101102}
+  alarm: {fileID: 101090}
+  evacuation: {fileID: 101161}
+  extinguisherStation: {fileID: 101101}
+  fire: {fileID: 101099}
+  phone: {fileID: 101091}
+  maskDisplay: {fileID: 101092}
+  liftCall: {fileID: 101135}
+  fireViewPoint: {fileID: 101100}
+  storeDoor: {fileID: 101102}
+  exitDoor: {fileID: 101103}
   startPoint: {fileID: 101064}
   extinguisherCards:
-  - {fileID: 101092}
   - {fileID: 101093}
   - {fileID: 101094}
   - {fileID: 101095}
   - {fileID: 101096}
   - {fileID: 101097}
+  - {fileID: 101098}
   uiAudio: {fileID: 0}
   clickClip: {fileID: 8300000, guid: e62773fb9bbeb8bc3ad6e9723ea8efad, type: 3}
   panelClip: {fileID: 8300000, guid: 7c927c94fe5953aa5ac6f279069359b8, type: 3}
@@ -24629,9 +24645,9 @@ SceneRoots:
   - {fileID: 100002}
   - {fileID: 101064}
   - {fileID: 101066}
-  - {fileID: 101075}
-  - {fileID: 101082}
-  - {fileID: 101086}
-  - {fileID: 101137}
-  - {fileID: 101159}
-  - {fileID: 101162}
+  - {fileID: 101076}
+  - {fileID: 101083}
+  - {fileID: 101087}
+  - {fileID: 101138}
+  - {fileID: 101160}
+  - {fileID: 101163}
