@@ -197,6 +197,13 @@ Toolkit wiring to build, because the trainer reads head pose, thumbsticks and tr
    Press **Fix All** if Unity lists warnings. Without a profile the head pose works but the sticks
    and trigger do not — the trainer logs a warning saying exactly that.
 3. Keep **Render Mode = Single Pass Instanced** (Unity 6 default) and **Active Input Handling = Both**.
+4. **Play Mode OpenXR Runtime** must name a runtime. If it reads *System Default (None Set)*, no OpenXR
+   runtime is registered with Windows — start Meta Quest Link / SteamVR first. Leave every generic
+   **OpenXR Feature Group** off, including *Mock Runtime*. For a standalone Quest build, install
+   `com.unity.xr.meta-openxr` to get the *Meta Quest Support* group, then enable it on the Android tab.
+
+`Tools ▸ VR Fire Safety ▸ Project Setup Report` prints the loader state and the enabled interaction
+profiles, so the two settings that decide whether a headset works can be checked in one line.
 
 **Tracking origin** is handled in code: `PlayerController.RequestTrackingOrigin()` asks for a
 floor-relative origin (retried each second until the input subsystem is running), and falls back to a

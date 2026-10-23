@@ -228,14 +228,36 @@ Editor-side XR configuration, which every Unity VR project has to do once:
 4. Leave **Active Input Handling** at **Both** (already set). The desktop controls read the legacy
    Input Manager.
 
+**If you are looking at Project Settings ▸ XR Plug-in Management ▸ OpenXR** (the page with the PC and
+Android tabs), this is what each control means for this project:
+
+| Control in your screenshot | What to do | Why it matters here |
+| --- | --- | --- |
+| **Enabled Interaction Profiles — "List is Empty"** | Press **+** and add the profile for your controllers: *Oculus Touch Controller Profile* (Quest via Link/Air Link, Rift), *Valve Index Controller Profile*, *HTC Vive Controller Profile*, or *Microsoft Motion Controller Profile* | The trainer reads the thumbsticks and trigger through `UnityEngine.XR`. With no profile the headset still tracks, but movement, snap turn and interaction do nothing |
+| **Render Mode — Single Pass Instanced** | leave it | correct stereo rendering for URP, and the fastest option |
+| **Auto Color Submission Mode / Use OpenXR Predicted Time** | leave them ticked | sensible defaults |
+| **Play Mode OpenXR Runtime — "System Default (None Set)"** | start the headset software first (Meta Quest Link app, SteamVR, or Windows Mixed Reality), then reopen this page; if a runtime is listed, you may select it explicitly | "None Set" means Windows has no active OpenXR runtime registered, so Play mode cannot start an XR session. The headset software registers itself as the active runtime when it starts |
+| **OpenXR Feature Groups** (API Layers, Debug Utils, D-Pad Binding, Foveated Rendering, Hand Interaction Poses, Mock Runtime, Palm Pose, Runtime Debugger, XR Performance Settings) | leave them all **off** | none are needed; vendor groups (for example *Meta Quest Support*) appear here only after the matching package is added |
+| **Mock Runtime** | leave it off while testing with hardware | it replaces the real runtime and provides no head tracking — useful only for automated tests |
+
+For a **standalone Quest build** the *Meta Quest Support* group does not exist until you install the
+vendor package: **Package Manager ▸ + ▸ Add package by name… ▸ `com.unity.xr.meta-openxr`**. Then tick
+it on the **Android** tab together with the OpenXR loader and the Oculus Touch profile. A Quest build
+also works with plain OpenXR and no vendor package, which is how this project is configured by default.
+
+Also confirm one level up: **Project Settings ▸ XR Plug-in Management** (the parent page, not the
+OpenXR sub-page) must have **☑ OpenXR** ticked on the **PC** tab — and on the **Android** tab if you
+are building for a standalone headset. That tick is what actually enables the loader; the sub-page you
+have open only configures it.
+
 **Tracking origin — handled in code, nothing to click**
 
 `PlayerController` asks the runtime for a **floor-relative tracking origin** when the session starts
 (`RequestTrackingOrigin`, called again each second until the subsystem is running). That matters
 because the rig root sits on the floor and the camera is its child: with a device-relative origin the
 head pose would put the eyes at floor level. If a runtime offers only a device origin, the script
-adds `vrDeviceOriginEyeHeight` (1.62 m) instead. The value in the scene is 0 if floor tracking was
-confirmed and 1.62 m otherwise, so the player's eye height is correct either way.
+adds `vrDeviceOriginEyeHeight` (1.62 m, serialized on the `Player` object) instead, so the player's
+eye height is correct either way. Nothing needs to be set for this.
 
 **Testing without a headset**
 
@@ -276,6 +298,25 @@ build-time shader stripping.
 ---
 
 ## 7. Troubleshooting
+
+### A headset is connected but Play mode stays flat / the controllers do nothing
+
+Check, in this order:
+
+1. **XR Plug-in Management ▸ PC ▸ ☑ OpenXR** is ticked (the parent page, not the OpenXR sub-page).
+2. **OpenXR ▸ Enabled Interaction Profiles** is not empty — add the profile for your controllers.
+   This is the single most common cause of "the sticks do nothing".
+3. **OpenXR ▸ Play Mode OpenXR Runtime** shows a runtime name. If it says *System Default (None Set)*,
+   start the headset software (Meta Quest Link, SteamVR, Windows Mixed Reality) and reopen the page.
+4. **Console** — after three seconds in Play mode the trainer logs
+   `[Fire Safety] XR is active but no controller devices were reported` when the session runs without
+   controllers, which points at step 2.
+5. **Tools ▸ VR Fire Safety ▸ Project Setup Report** prints the OpenXR loader state and the enabled
+   interaction profiles in one line, so you can confirm steps 1 and 2 without hunting through settings.
+
+If the view appears at knee or floor height, the runtime refused floor tracking; the trainer already
+falls back to a 1.62 m eye offset, so check that `PlayerController.driveCameraFromXrDevice` is still
+ticked and that no other script is moving `Main Camera`.
 
 ### `DirectoryNotFoundException` / "Asset import failed" for `Packages/...` files
 

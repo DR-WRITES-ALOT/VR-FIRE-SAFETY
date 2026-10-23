@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -163,6 +165,8 @@ public static class FireSafetyProjectSetup
             notes.Add("No XR device is enabled yet. Desktop play works now; to test in a headset, " +
                       "enable OpenXR in Project Settings > XR Plug-in Management (see the README).");
 
+        OpenXrReport(notes);
+
         // Player spawn should be inside the first corridor.
         if (lesson != null && lesson.startPoint != null)
         {
@@ -186,6 +190,123 @@ public static class FireSafetyProjectSetup
         else
             EditorUtility.DisplayDialog("Validation problems",
                 errors.Count + " problem(s) were written to the Console.", "OK");
+    }
+
+    /// <summary>
+    /// Reports the OpenXR configuration that decides whether a headset actually works:
+    /// whether the loader is enabled for the active build target and whether at least one
+    /// controller interaction profile is enabled.
+    ///
+    /// This uses reflection on purpose. The OpenXR package can be removed (see
+    /// tools/set_xr_packages.py desktop), and a hard reference to its assembly would then stop
+    /// the Editor scripts from compiling. Reflection keeps this tool usable either way.
+    /// </summary>
+    static void OpenXrReport(List<string> notes)
+    {
+        Type settingsType = Type.GetType("UnityEngine.XR.OpenXR.OpenXRSettings, Unity.XR.OpenXR");
+        if (settingsType == null)
+        {
+            notes.Add("OpenXR package: not installed. Desktop play is unaffected; add " +
+                      "com.unity.xr.openxr from the Package Manager to use a headset.");
+            return;
+        }
+
+        object settings = null;
+        try
+        {
+            PropertyInfo active = settingsType.GetProperty("ActiveBuildTargetInstance",
+                BindingFlags.Public | BindingFlags.Static);
+            settings = active != null ? active.GetValue(null) : null;
+        }
+        catch (Exception)
+        {
+            settings = null;
+        }
+
+        if (settings == null)
+        {
+            notes.Add("OpenXR: no settings asset exists yet for the active build target, which " +
+                      "usually means the OpenXR loader is not ticked in Project Settings > " +
+                      "XR Plug-in Management.");
+            return;
+        }
+
+        MethodInfo getFeatures = settingsType.GetMethod("GetFeatures", Type.EmptyTypes);
+        if (getFeatures == null)
+        {
+            notes.Add("OpenXR: the installed package exposes an unexpected API; check the OpenXR " +
+                      "settings page manually.");
+            return;
+        }
+
+        Array features = getFeatures.Invoke(settings, null) as Array;
+        List<string> profiles = new List<string>();
+        int enabledCount = 0;
+
+        if (features != null)
+        {
+            foreach (object feature in features)
+            {
+                if (feature == null) continue;
+                Type featureType = feature.GetType();
+
+                bool enabled = false;
+                PropertyInfo enabledProperty = featureType.GetProperty("enabled",
+                    BindingFlags.Public | BindingFlags.Instance);
+                if (enabledProperty != null && enabledProperty.PropertyType == typeof(bool))
+                    enabled = (bool)enabledProperty.GetValue(feature, null);
+                if (!enabled) continue;
+
+                enabledCount++;
+                if (IsInteractionProfile(featureType))
+                    profiles.Add(ReadableName(featureType.Name));
+            }
+        }
+
+        if (enabledCount == 0)
+        {
+            notes.Add("OpenXR: no features are enabled for " + EditorUserBuildSettings.activeBuildTarget +
+                      ". Tick OpenXR in Project Settings > XR Plug-in Management.");
+            return;
+        }
+
+        if (profiles.Count == 0)
+        {
+            notes.Add("OpenXR: no controller interaction profile is enabled, so the headset will " +
+                      "track but the thumbsticks and trigger will do nothing. Open Project Settings > " +
+                      "XR Plug-in Management > OpenXR > Enabled Interaction Profiles and add the " +
+                      "profile for your headset (Oculus Touch for Quest/Rift, Valve Index, Vive, " +
+                      "Microsoft Motion Controller for Windows MR).");
+            return;
+        }
+
+        notes.Add("OpenXR interaction profiles enabled: " + string.Join(", ", profiles.ToArray()) + ".");
+    }
+
+    /// <summary>Interaction profiles all derive from OpenXRInteractionFeature.</summary>
+    static bool IsInteractionProfile(Type type)
+    {
+        for (Type current = type; current != null; current = current.BaseType)
+        {
+            if (current.Name == "OpenXRInteractionFeature") return true;
+        }
+        return false;
+    }
+
+    /// <summary>"OculusTouchControllerProfile" -> "Oculus Touch Controller".</summary>
+    static string ReadableName(string typeName)
+    {
+        if (typeName.EndsWith("Profile", StringComparison.Ordinal))
+            typeName = typeName.Substring(0, typeName.Length - "Profile".Length);
+
+        System.Text.StringBuilder builder = new System.Text.StringBuilder(typeName.Length + 8);
+        for (int i = 0; i < typeName.Length; i++)
+        {
+            char c = typeName[i];
+            if (i > 0 && char.IsUpper(c)) builder.Append(' ');
+            builder.Append(c);
+        }
+        return builder.ToString();
     }
 
     /// <summary>
@@ -220,6 +341,10 @@ public static class FireSafetyProjectSetup
         if (XRSettings.supportedDevices.Length == 0)
             Debug.Log("[Fire Safety] Desktop play works. For a headset, enable OpenXR under " +
                       "Project Settings > XR Plug-in Management, then enable the feature for your device.");
+
+        List<string> xrNotes = new List<string>();
+        OpenXrReport(xrNotes);
+        foreach (string note in xrNotes) Debug.Log("[Fire Safety] " + note);
     }
 
 
