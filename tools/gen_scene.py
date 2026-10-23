@@ -1018,6 +1018,7 @@ def build_player(b):
     # the live XR session, tracking origin and controllers without a headset.
     player.mono("VrReadinessPanel", [
         "  showOnStart: 0",
+        "  autoBothEyes: 1",
         "  panelWidth: 560",
         "  fontSize: 15",
     ])

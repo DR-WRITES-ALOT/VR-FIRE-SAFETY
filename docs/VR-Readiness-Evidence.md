@@ -64,8 +64,13 @@ once per eye, exactly as a headset receives it.
 2. **Edit ▸ Project Settings ▸ XR Plug-in Management** → **PC** tab → tick **Mock HMD** (this is a
    separate loader from OpenXR; both may be ticked, Mock HMD wins in the Editor).
 3. Press **Play**.
-4. In the **Game view**, open the render-mode dropdown (top-left of the Game view toolbar, usually
-   showing *Game*) and choose **Both Eyes**.
+4. The **Both Eyes** selector only exists while an XR display subsystem is running. It is *not* the
+   `Game ▾` dropdown on the far left (that one switches between the Game view and the Simulator
+   view); it is a separate popup further along the Game view toolbar, labelled with the current eye
+   mode (*Left Eye*, *Right Eye*, *Both Eyes*, *Occlusion Mesh*). If the Game tab is narrow it can be
+   clipped — maximise the tab (`Shift+Space`).
+   The scene's `VrReadinessPanel` now sets **Both Eyes** automatically the first time an XR session
+   starts and logs it to the Console, so normally you only have to press Play.
 
 **Screenshot:** the Game view with the lesson menu drawn twice, side by side. Crop to include the
 toolbar so the *Both Eyes* setting is visible.
@@ -75,6 +80,15 @@ stereo rendering (a screen-space overlay would be drawn once, flat, over both ey
 and the lesson logic runs inside an XR session rather than beside it.
 **What it does not prove:** head tracking or controller input, because Mock HMD deliberately
 provides neither.
+
+**If the selector never appears**, an XR session is not starting. Check, in order:
+
+1. `com.unity.xr.mock-hmd` is actually installed — *Package Manager ▸ In Project* lists it.
+2. **XR Plug-in Management ▸ PC** has **Mock HMD** ticked, and **OpenXR** unticked for this demo
+   (two loaders fighting over the same session is the usual cause).
+3. **Project Settings ▸ XR Plug-in Management** has **Initialize XR on Startup** ticked.
+4. The Console has no red XR errors at the start of Play mode.
+5. The F2 panel says `XR session ....... ACTIVE`. If it says *inactive*, no loader ran.
 
 Remember to untick Mock HMD afterwards, or press Play will keep using it.
 

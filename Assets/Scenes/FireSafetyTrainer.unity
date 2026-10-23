@@ -23039,6 +23039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showOnStart: 0
+  autoBothEyes: 1
   panelWidth: 560
   fontSize: 15
 --- !u!1 &101068

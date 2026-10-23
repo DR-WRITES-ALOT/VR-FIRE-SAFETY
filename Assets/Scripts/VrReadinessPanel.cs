@@ -18,12 +18,18 @@ public class VrReadinessPanel : MonoBehaviour
     [Tooltip("Show the panel as soon as the scene starts (F2 still toggles it).")]
     public bool showOnStart;
 
+    [Tooltip("In the Editor, switch the Game view to both eyes automatically when an XR session " +
+             "starts, so the stereo demo needs no toolbar hunting. The Game view dropdown still " +
+             "overrides it.")]
+    public bool autoBothEyes = true;
+
     [Tooltip("Panel width in pixels at the reference resolution.")]
     public int panelWidth = 560;
 
     public int fontSize = 15;
 
     bool visible;
+    bool xrWasActive;
     float smoothedDelta = 0.016f;
     GUIStyle style;
     Texture2D background;
@@ -37,6 +43,27 @@ public class VrReadinessPanel : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F2)) visible = !visible;
         smoothedDelta = Mathf.Lerp(smoothedDelta, Time.unscaledDeltaTime, 0.05f);
+
+        // The Game view only offers Left/Right/Both Eyes once an XR display subsystem is
+        // running, which a beginner cannot be expected to know. Switch it for them the first
+        // time a session starts, and say so in the Console.
+        bool xrActive = XRSettings.isDeviceActive;
+        if (xrActive && !xrWasActive)
+        {
+            Debug.Log("[Fire Safety] XR session active (" + XRSettings.loadedDeviceName +
+                      "). The Game view is set to both eyes; press F2 for the XR diagnostics panel.");
+            ForceBothEyes();
+        }
+        xrWasActive = xrActive;
+    }
+
+    void ForceBothEyes()
+    {
+        if (!autoBothEyes) return;
+#if UNITY_EDITOR
+        if (XRSettings.gameViewRenderMode != GameViewRenderMode.BothEyes)
+            XRSettings.gameViewRenderMode = GameViewRenderMode.BothEyes;
+#endif
     }
 
     void OnDestroy()
