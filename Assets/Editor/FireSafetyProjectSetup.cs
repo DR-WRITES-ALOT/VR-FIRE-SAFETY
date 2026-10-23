@@ -75,7 +75,7 @@ public static class FireSafetyProjectSetup
         List<string> errors = new List<string>();
         List<string> notes = new List<string>();
 
-        LessonManager lesson = Object.FindFirstObjectByType<LessonManager>();
+        LessonManager lesson = UnityEngine.Object.FindFirstObjectByType<LessonManager>();
         if (lesson == null)
         {
             errors.Add("No LessonManager in the scene.");
@@ -99,19 +99,19 @@ public static class FireSafetyProjectSetup
                 errors.Add("LessonManager should reference exactly 6 extinguisher cards.");
         }
 
-        PlayerController player = Object.FindFirstObjectByType<PlayerController>();
+        PlayerController player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
         if (player == null) errors.Add("No PlayerController (player rig) in the scene.");
         else if (player.playerCamera == null) errors.Add("PlayerController.playerCamera is not assigned.");
         else if (player.playerCamera.GetComponent<AudioListener>() == null)
             notes.Add("The player camera has no AudioListener - alarm audio will be silent.");
 
-        if (Object.FindFirstObjectByType<LessonUI>() == null) errors.Add("No LessonUI in the scene.");
-        if (Object.FindFirstObjectByType<EventSystem>() == null) errors.Add("No EventSystem in the scene.");
-        if (Object.FindFirstObjectByType<AlarmController>() == null) errors.Add("No AlarmController in the scene.");
-        if (Object.FindFirstObjectByType<FireDemo>() == null) errors.Add("No FireDemo in the scene.");
-        if (Object.FindFirstObjectByType<CorridorSmoke>() == null) errors.Add("No CorridorSmoke in the scene.");
+        if (UnityEngine.Object.FindFirstObjectByType<LessonUI>() == null) errors.Add("No LessonUI in the scene.");
+        if (UnityEngine.Object.FindFirstObjectByType<EventSystem>() == null) errors.Add("No EventSystem in the scene.");
+        if (UnityEngine.Object.FindFirstObjectByType<AlarmController>() == null) errors.Add("No AlarmController in the scene.");
+        if (UnityEngine.Object.FindFirstObjectByType<FireDemo>() == null) errors.Add("No FireDemo in the scene.");
+        if (UnityEngine.Object.FindFirstObjectByType<CorridorSmoke>() == null) errors.Add("No CorridorSmoke in the scene.");
 
-        EvacuationController evacuation = Object.FindFirstObjectByType<EvacuationController>();
+        EvacuationController evacuation = UnityEngine.Object.FindFirstObjectByType<EvacuationController>();
         if (evacuation == null) errors.Add("No EvacuationController in the scene.");
         else
         {
@@ -122,7 +122,7 @@ public static class FireSafetyProjectSetup
         }
 
         // Every interactable needs a collider, otherwise the player can never look at it.
-        MonoBehaviour[] behaviours = Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        MonoBehaviour[] behaviours = UnityEngine.Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         int interactables = 0;
         foreach (MonoBehaviour behaviour in behaviours)
         {
@@ -134,7 +134,7 @@ public static class FireSafetyProjectSetup
         notes.Add(interactables + " interactable objects found.");
 
         // Checkpoints must use trigger colliders.
-        foreach (CheckpointTrigger checkpoint in Object.FindObjectsByType<CheckpointTrigger>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        foreach (CheckpointTrigger checkpoint in UnityEngine.Object.FindObjectsByType<CheckpointTrigger>(FindObjectsInactive.Include, FindObjectsSortMode.None))
         {
             Collider collider = checkpoint.GetComponent<Collider>();
             if (collider == null || !collider.isTrigger)
@@ -315,7 +315,7 @@ public static class FireSafetyProjectSetup
     /// </summary>
     static int ActiveInputHandler()
     {
-        Object[] assets = AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/ProjectSettings.asset");
+        UnityEngine.Object[] assets = AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/ProjectSettings.asset");
         if (assets == null || assets.Length == 0) return -1;
         SerializedProperty property = new SerializedObject(assets[0]).FindProperty("activeInputHandler");
         return property != null ? property.intValue : -1;
@@ -415,7 +415,7 @@ public static class FireSafetyProjectSetup
             Debug.Log("[Fire Safety] Project path length is fine.");
     }
 
-    static void Require<T>(ref T reference, string label, List<string> errors) where T : Object
+    static void Require<T>(ref T reference, string label, List<string> errors) where T : UnityEngine.Object
     {
         if (reference == null) errors.Add(label + " is not assigned.");
     }

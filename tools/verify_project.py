@@ -213,6 +213,17 @@ def check_scripts(problems, notes):
                 problems.append("%s uses %r (%s)" % (path, match.group(0), hint))
         if "ENABLE_LEGACY_INPUT_MANAGER" in text:
             notes.append("%s guards against the legacy input backend being disabled" % path)
+
+        # CS0104 guard: "using System;" next to "using UnityEngine;" makes the bare name
+        # Object ambiguous (UnityEngine.Object vs System.Object). This shipped once and
+        # blocked Play mode, so it is checked from now on.
+        if re.search(r"^using System;\s*$", text, re.MULTILINE):
+            ambiguous = re.search(r"(?<![.\w])Object\b(?!\s*\()", text)
+            nullability = re.search(r"(?<![.\w])Object\s*\?", text)
+            if ambiguous or nullability:
+                problems.append("%s uses the bare name 'Object' while 'using System;' is also "
+                                "imported; this is CS0104 (ambiguous between UnityEngine.Object "
+                                "and object). Write UnityEngine.Object explicitly." % path)
     return files
 
 

@@ -394,7 +394,7 @@ public static class VrReadinessReport
         }
         catch (Exception)
         {
-            return PlayerSettings.applicationIdentifier;
+            return "unknown (open Player > Android to read it)";
         }
     }
 
