@@ -148,7 +148,25 @@ decides whether that event belongs to the current stage. Teaching text lives in
 
 ---
 
-## 4. Regenerating the project files (optional)
+## 4. Presentation deck
+
+`docs/VR-Fire-Safety-Implementation.pptx` is an 18-slide implementation review: scope, the
+environment and its dimensions, the four teaching sections, the script architecture, the lesson
+stage machine, the interaction pipeline, the sections themselves (alarm, masks, extinguishers,
+animated PASS, smoke hazard, first aid), the UI, the sources behind the content, the build/verification
+tooling, the bugs found in play-testing and how they were fixed, and what is and is not verified.
+Every slide carries speaker notes.
+
+Recreate or edit it from source:
+
+```bash
+pip install python-pptx
+python3 tools/make_presentation.py      # writes docs/VR-Fire-Safety-Implementation.pptx
+python3 tools/lint_presentation.py      # checks text fit and overlapping boxes
+python3 tools/render_preview.py         # optional PNG preview (needs Pillow)
+```
+
+## 5. Regenerating the project files (optional)
 
 The scene, materials, signage textures and audio were produced by scripts so that everything is
 repeatable and reviewable:
@@ -187,7 +205,7 @@ Single storey, 4 m wide corridors, 3.2 m ceilings, stairs descending 3.5 m:
 
 ---
 
-## 5. Manual configuration still needed for a VR headset
+## 6. Manual configuration still needed for a VR headset
 
 Desktop play works immediately. To run in a headset, enable XR in the Editor (this is a per-project
 Editor step in every Unity VR project):
@@ -224,7 +242,7 @@ actions (the package is already installed).
 
 ---
 
-## 6. Troubleshooting
+## 7. Troubleshooting
 
 ### `DirectoryNotFoundException` / "Asset import failed" for `Packages/...` files
 
@@ -327,7 +345,7 @@ any more: materials, lights and the pipeline asset would all have to be converte
 already listed in **Project Settings ▸ Graphics ▸ Always Included Shaders**; if you add another
 renderer or strip shaders manually, keep that entry.
 
-## 7. References
+## 8. References
 
 The fire-safety and first-aid content was checked against these sources (also available in-game:
 main menu → **REFERENCES**, and on the reference posters in the corridors).
@@ -361,7 +379,7 @@ Key points taken from the sources:
 
 ---
 
-## 8. Testing status (honest summary)
+## 9. Testing status (honest summary)
 
 **Verified in this environment**
 
