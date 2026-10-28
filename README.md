@@ -166,6 +166,20 @@ python3 tools/lint_presentation.py      # checks text fit and overlapping boxes
 python3 tools/render_preview.py         # optional PNG preview (needs Pillow)
 ```
 
+### Project report
+
+`docs/Project-Report.md` is the plain-language report: the project as it stands now (what it is,
+how to run it, the route, the four sections, controls, the screen layout, the stereo view, the
+folders, the sources, an honest testing summary) with earlier versions and fixed problems kept
+in one separate section at the end.
+
+`docs/VR-Fire-Safety-Project-Report.docx` is the same report as a Word document, with the
+screenshots embedded. The Markdown is the source of truth, so edit that and regenerate:
+
+```bash
+python3 tools/make_report_docx.py     # needs: pip install python-docx pillow
+```
+
 ## 5. Regenerating the project files (optional)
 
 The scene, materials, signage textures and audio were produced by scripts so that everything is
