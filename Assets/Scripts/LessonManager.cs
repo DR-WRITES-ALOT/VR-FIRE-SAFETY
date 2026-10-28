@@ -138,7 +138,15 @@ public class LessonManager : MonoBehaviour
     public void StartTraining()
     {
         PlayClick();
-        if (Ui != null) Ui.HideMenu();
+        if (Ui != null)
+        {
+            Ui.HideMenu();
+            // StartTraining is reached straight from the main menu, which switches the HUD
+            // off. Without this the section band, the objective box and the controls hint
+            // stayed hidden for the whole run: only ShowMenu(false) turned them back on, and
+            // the menu button never goes through it.
+            Ui.SetHudVisible(true);
+        }
         if (player != null) player.SetUiFocus(false);
         ResetLessonState();
         if (player != null && startPoint != null)

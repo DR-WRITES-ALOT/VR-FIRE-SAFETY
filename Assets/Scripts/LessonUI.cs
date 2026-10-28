@@ -44,6 +44,9 @@ public class LessonUI : MonoBehaviour
 
     // HUD
     RectTransform hudRoot;
+    RectTransform sectionBandRect;
+    RectTransform objectiveBoxRect;
+    RectTransform hintRect;
     Text sectionText;
     Text objectiveText;
     Text promptText;
@@ -304,6 +307,7 @@ public class LessonUI : MonoBehaviour
         Image sectionBand = CreateImage("SectionBand", hudRoot, new Color(0.03f, 0.04f, 0.06f, 0.86f));
         Place(sectionBand.rectTransform, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f),
               new Vector2(Margin, -Margin), new Vector2(560f, 52f));
+        sectionBandRect = sectionBand.rectTransform;
         Image sectionAccent = CreateImage("Accent", sectionBand.transform, accentColour);
         Place(sectionAccent.rectTransform, new Vector2(0f, 0f), new Vector2(0f, 1f), new Vector2(0f, 0.5f),
               new Vector2(0f, 0f), new Vector2(6f, 0f));
@@ -316,6 +320,7 @@ public class LessonUI : MonoBehaviour
         Image objectiveBox = CreateImage("ObjectiveBox", hudRoot, new Color(0.03f, 0.04f, 0.06f, 0.9f));
         Place(objectiveBox.rectTransform, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(1f, 1f),
               new Vector2(-Margin, -Margin), new Vector2(470f, 176f));
+        objectiveBoxRect = objectiveBox.rectTransform;
         Image objectiveAccent = CreateImage("Accent", objectiveBox.transform, accentColour);
         Place(objectiveAccent.rectTransform, new Vector2(0f, 1f), new Vector2(1f, 1f),
               new Vector2(0.5f, 1f), Vector2.zero, new Vector2(0f, 6f));
@@ -344,6 +349,7 @@ public class LessonUI : MonoBehaviour
             TextAnchor.LowerLeft, false, new Color(0.86f, 0.88f, 0.92f, 0.9f));
         Place(hint.rectTransform, new Vector2(0f, 0f), new Vector2(1f, 0f), new Vector2(0f, 0f),
               new Vector2(Margin, Margin - 4f), new Vector2(-2f * Margin, 30f));
+        hintRect = hint.rectTransform;
 
         // Demonstration caption: a large subtitle used while the PASS sequence is played.
         Image captionBand = CreateImage("CaptionBand", hudRoot, new Color(0.03f, 0.04f, 0.06f, 0.92f));
@@ -421,6 +427,23 @@ public class LessonUI : MonoBehaviour
     public void SetHudVisible(bool visible)
     {
         if (hudRoot != null) hudRoot.gameObject.SetActive(visible);
+        RefreshHudChrome();
+    }
+
+    /// <summary>
+    /// A teaching panel covers almost the whole screen, so the section band, the objective
+    /// box and the controls hint are hidden while it is open. They used to sit behind the
+    /// panel and read as text printed on top of the panel title. The panel carries the same
+    /// information in its own footer, so nothing is lost; the HUD comes back when it closes.
+    /// </summary>
+    void RefreshHudChrome()
+    {
+        bool chrome = hudRoot != null && hudRoot.activeSelf
+                      && !panelOpen && !pauseOpen && !infoOpen;
+        if (sectionBandRect != null) sectionBandRect.gameObject.SetActive(chrome);
+        if (objectiveBoxRect != null) objectiveBoxRect.gameObject.SetActive(chrome);
+        if (hintRect != null) hintRect.gameObject.SetActive(chrome);
+        if (!chrome) SetPrompt(string.Empty);
     }
 
     public void ShowWarning(string message, float seconds = 4f)
@@ -511,6 +534,7 @@ public class LessonUI : MonoBehaviour
         modalRoot.SetAsLastSibling();
         panelOpen = true;
         SetPrompt(string.Empty);
+        RefreshHudChrome();
         SelectFirstButton();
         SyncFocus();
     }
@@ -521,6 +545,7 @@ public class LessonUI : MonoBehaviour
         panelOpen = false;
         ClearModalButtons();
         ClearHover();
+        RefreshHudChrome();
         SyncFocus();
     }
 
@@ -679,6 +704,7 @@ public class LessonUI : MonoBehaviour
     void ShowMenuInfo(string title, string body)
     {
         infoOpen = true;
+        RefreshHudChrome();
         menuInfoTitle.text = title;
         menuInfoBody.text = body;
         menuInfoBody.fontSize = FitFontSize(body, 590f, 92f, 24, 17);
@@ -692,6 +718,7 @@ public class LessonUI : MonoBehaviour
     {
         infoOpen = false;
         if (menuInfoRoot != null) menuInfoRoot.gameObject.SetActive(false);
+        RefreshHudChrome();
         ClearHover();
         SelectFirstButton();
         SyncFocus();
@@ -793,6 +820,7 @@ public class LessonUI : MonoBehaviour
         pauseOpen = true;
         pauseRoot.gameObject.SetActive(true);
         pauseRoot.SetAsLastSibling();
+        RefreshHudChrome();
         SelectFirstButton();
         SyncFocus();
     }
@@ -803,6 +831,7 @@ public class LessonUI : MonoBehaviour
         if (pauseRoot != null) pauseRoot.gameObject.SetActive(false);
         currentButtons = new List<Selectable>();
         ClearHover();
+        RefreshHudChrome();
         SyncFocus();
     }
 
