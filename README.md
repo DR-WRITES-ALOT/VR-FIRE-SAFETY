@@ -509,10 +509,11 @@ Key points taken from the sources:
 
 **Not verified here (no Unity Editor or headset is available in this environment)**
 
-* The project has **never been opened in Unity 6000.5.3f1** (or any Unity). Package resolution,
-  the settings upgrade Unity performs on first open, URP shader/material import and script
-  compilation were checked only statically and against Unity 6.5 documentation; they were not
-  executed. The URP migration in particular has not been seen on screen yet.
+* ~~The project has never been opened in Unity 6000.5.3f1.~~ **Update:** the project has since been
+  opened and played in Unity 6000.5.3f1 (URP). Package resolution, shader/material import and
+  script compilation all completed, and the captures in `docs/screenshots/` show the Editor, the
+  main menu, teaching panels and a stereo (*Both Eyes*) Game view at runtime. That covers the
+  desktop path in the Editor only — see the remaining items below.
 * The `AssetImportWorkerHW0` crash reported from Unity 6.5 has not been reproduced here (there is
   no editor in this environment). The fix is structural: the folders OpenXR creates during import
   are now part of the project, plus a documented desktop-only fallback; it has not been confirmed by
